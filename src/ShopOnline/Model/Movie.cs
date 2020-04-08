@@ -5,7 +5,7 @@ namespace ShopOnline.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public Genre Genre { get; set; }
+        public string Genre { get; set; }
         public int ProductionYear { get; set; }
         public string Director { get; set; }
         public string Description { get; set; }
@@ -15,7 +15,7 @@ namespace ShopOnline.Model
         {
         }
 
-        public Movie(int id, string title, Genre genre, int productionYear, string director, string description, int rating)
+        public Movie(int id, string title, string genre, int productionYear, string director, string description, int rating)
         {
             Id = id;
             Title = title;
@@ -24,6 +24,11 @@ namespace ShopOnline.Model
             Director = director;
             Description = description;
             Rating = rating;
+        }
+
+        public override string ToString()
+        {
+            return $"{Title} ({ProductionYear}), {Genre}, {Rating}*";
         }
     }
 }
