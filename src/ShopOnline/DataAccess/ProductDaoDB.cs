@@ -14,53 +14,66 @@ namespace ShopOnline.DataAccess
             DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
         }
 
+
         public List<Movie> GetAllMovies()
         {
             List<Movie> allMovies = new List<Movie>();
 
-            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
-            con.Open();
-
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
             string sql = @"SELECT movies.id, title, genres.name, production_year, director, description, rating
                            FROM movies
                            LEFT JOIN genres ON movies.genre_id = genres.id;";
 
-            using var cmd = new NpgsqlCommand(sql, con);
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sql, connectionObj);
             using NpgsqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                Movie movie = new Movie(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetInt32(3), rdr.GetString(4), rdr.GetString(5), rdr.GetInt32(6));
-                allMovies.Add(movie);
+                ParseDBTo(allMovies, rdr);
             }
             return allMovies;
+        }
+
+        private void ParseDBTo(List<Movie> allMovies, NpgsqlDataReader rdr)
+        {
+            string genre = rdr.GetString(2);
+            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
+            allMovies.Add(new Movie(rdr.GetInt32(0), rdr.GetString(1), parsedGenre, rdr.GetInt32(3), rdr.GetString(4), rdr.GetString(5), rdr.GetInt32(6)));
         }
 
         public List<Product> GetAllProducts()
         {
             List<Product> allProducts = new List<Product>();
 
-            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
-            con.Open();
-
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
             string sql = @"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id; ";
 
-            using var cmd = new NpgsqlCommand(sql, con);
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sql, connectionObj);
             using NpgsqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                Movie movie = new Movie(rdr.GetInt32(2),
-                                        rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5), rdr.GetString(6), rdr.GetString(7), rdr.GetInt32(8));
-                Product product = new Product(rdr.GetInt32(0), rdr.GetString(1), movie, rdr.GetInt32(9));
-                allProducts.Add(product);
+                ParseDBTo(allProducts, rdr);
             }
 
             return allProducts;
+        }
+
+        private void ParseDBTo(List<Product> allProducts, NpgsqlDataReader rdr)
+        {
+            string genre = rdr.GetString(4);
+            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
+            Movie movie = new Movie(rdr.GetInt32(2),
+                                        rdr.GetString(3), parsedGenre, rdr.GetInt32(5), rdr.GetString(6), rdr.GetString(7), rdr.GetInt32(8));
+            string mediaType = rdr.GetString(1);
+            MediaType parsedMediaType = (MediaType)Enum.Parse(typeof(MediaType), mediaType);
+            allProducts.Add(new Product(rdr.GetInt32(0), parsedMediaType, movie, rdr.GetInt32(9)));
         }
     }
 }
