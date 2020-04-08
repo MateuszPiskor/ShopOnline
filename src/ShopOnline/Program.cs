@@ -1,4 +1,6 @@
 ﻿using System;
+using ShopOnline.DataAccess;
+using ShopOnline.Views;
 
 namespace ShopOnline
 {
