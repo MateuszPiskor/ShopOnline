@@ -35,29 +35,6 @@ namespace ShopOnline.DataAccess
             return allMovies;
         }
 
-        public List<Product> GetAllProducts()
-        {
-            List<Product> allProducts = new List<Product>();
-
-            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string sql = @"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
-                           FROM products
-                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
-                           LEFT JOIN movies ON products.movie_id = movies.id
-                           LEFT JOIN genres ON movies.genre_id = genres.id; ";
-
-            connectionObj.Open();
-            using var cmd = new NpgsqlCommand(sql, connectionObj);
-            using NpgsqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                ParseDBTo(allProducts, rdr);
-            }
-
-            return allProducts;
-        }
-
         public Product GetProductById(int id)
         {
             Product product = new Product();
@@ -78,6 +55,17 @@ namespace ShopOnline.DataAccess
             }
 
             return product;
+        }
+
+        public List<Product> GetAllProducts()
+        {
+            string sqlQuery = @"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id; ";
+
+            return GetFilteredProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByTitlePart(string partOfTitle)
