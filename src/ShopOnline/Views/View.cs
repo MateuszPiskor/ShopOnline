@@ -25,5 +25,15 @@ namespace ShopOnline.Views
                 Console.WriteLine(product.ToString());
             }
         }
+
+        public void PrintMovie(Movie movie)
+        {
+            Console.WriteLine();
+            Console.WriteLine(movie.ToString());
+            Console.WriteLine($"Director: {movie.Director}");
+            Console.WriteLine($"Story:");
+            Console.WriteLine(movie.Description);
+            Console.WriteLine();
+        }
     }
 }
