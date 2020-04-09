@@ -9,6 +9,10 @@ namespace ShopOnline.DataAccess
         List<Movie> GetAllMovies();
         List<Product> GetAllProducts();
         Product GetProductById(int id);
+        List<Product> GetProductsByTitlePart(string partOfTitle);
+        List<Product> GetProductsByGenre(string genre);
+        List<Product> GetProductsByDirector(string director);
+        List<Product> GetProductsByRating(int rating);
 
     }
 }

@@ -80,6 +80,73 @@ namespace ShopOnline.DataAccess
             return product;
         }
 
+        public List<Product> GetProductsByTitlePart(string partOfTitle)
+        {
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE title LIKE '%{partOfTitle}%' OR title LIKE '%{partOfTitle.ToUpper()}%'; ";
+
+            return GetFilteredProducts(sqlQuery);
+        }
+
+        public List<Product> GetProductsByGenre(string genre)
+        {
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE genres.name = '{genre}'; ";
+
+            return GetFilteredProducts(sqlQuery);
+        }
+
+        public List<Product> GetProductsByDirector(string director)
+        {
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE director = '{director}'; ";
+
+            return GetFilteredProducts(sqlQuery);
+        }
+
+        public List<Product> GetProductsByRating(int rating)
+        {
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE rating = '{rating}'; ";
+
+            return GetFilteredProducts(sqlQuery);
+        }
+
+        private List<Product> GetFilteredProducts(string sqlQuery)
+        {
+            List<Product> allProducts = new List<Product>();
+
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string sql = sqlQuery;
+
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sqlQuery, connectionObj);
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ParseDBTo(allProducts, rdr);
+            }
+
+            return allProducts;
+        }
+
         private void ParseDBTo(List<Movie> allMovies, NpgsqlDataReader rdr)
         {
             string genre = rdr.GetString(2);
