@@ -35,13 +35,6 @@ namespace ShopOnline.DataAccess
             return allMovies;
         }
 
-        private void ParseDBTo(List<Movie> allMovies, NpgsqlDataReader rdr)
-        {
-            string genre = rdr.GetString(2);
-            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
-            allMovies.Add(new Movie(rdr.GetInt32(0), rdr.GetString(1), parsedGenre, rdr.GetInt32(3), rdr.GetString(4), rdr.GetString(5), rdr.GetInt32(6)));
-        }
-
         public List<Product> GetAllProducts()
         {
             List<Product> allProducts = new List<Product>();
@@ -63,6 +56,35 @@ namespace ShopOnline.DataAccess
             }
 
             return allProducts;
+        }
+
+        public Product GetProductById(int id)
+        {
+            Product product = new Product();
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string sql = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE products.id = {id};";
+
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sql, connectionObj);
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                product = ParseDBTo(product, rdr);
+            }
+
+            return product;
+        }
+
+        private void ParseDBTo(List<Movie> allMovies, NpgsqlDataReader rdr)
+        {
+            string genre = rdr.GetString(2);
+            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
+            allMovies.Add(new Movie(rdr.GetInt32(0), rdr.GetString(1), parsedGenre, rdr.GetInt32(3), rdr.GetString(4), rdr.GetString(5), rdr.GetInt32(6)));
         }
 
         private void ParseDBTo(List<Product> allProducts, NpgsqlDataReader rdr)
@@ -87,26 +109,5 @@ namespace ShopOnline.DataAccess
             return product;
         }
 
-        public Product GetProductById(int id)
-        {
-            Product product = new Product();
-            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string sql = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
-                           FROM products
-                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
-                           LEFT JOIN movies ON products.movie_id = movies.id
-                           LEFT JOIN genres ON movies.genre_id = genres.id
-                           WHERE products.id = {id};";
-
-            connectionObj.Open();
-            using var cmd = new NpgsqlCommand(sql, connectionObj);
-            using NpgsqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                product = ParseDBTo(product, rdr);
-            }
-
-            return product;
-        }
     }
 }
