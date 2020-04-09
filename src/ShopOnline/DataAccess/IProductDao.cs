@@ -8,5 +8,7 @@ namespace ShopOnline.DataAccess
     {
         List<Movie> GetAllMovies();
         List<Product> GetAllProducts();
+        Product GetProductById(int id);
+
     }
 }

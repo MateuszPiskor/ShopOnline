@@ -67,13 +67,46 @@ namespace ShopOnline.DataAccess
 
         private void ParseDBTo(List<Product> allProducts, NpgsqlDataReader rdr)
         {
+            Product product = new Product();
+            product = ParseDBTo(product, rdr);
+            allProducts.Add(product);
+        }
+
+        private Product ParseDBTo(Product product, NpgsqlDataReader rdr)
+        {
             string genre = rdr.GetString(4);
             Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
-            Movie movie = new Movie(rdr.GetInt32(2),
-                                        rdr.GetString(3), parsedGenre, rdr.GetInt32(5), rdr.GetString(6), rdr.GetString(7), rdr.GetInt32(8));
+            Movie movie = new Movie(rdr.GetInt32(2), rdr.GetString(3), parsedGenre, rdr.GetInt32(5), rdr.GetString(6), rdr.GetString(7), rdr.GetInt32(8));
             string mediaType = rdr.GetString(1);
             MediaType parsedMediaType = (MediaType)Enum.Parse(typeof(MediaType), mediaType);
-            allProducts.Add(new Product(rdr.GetInt32(0), parsedMediaType, movie, rdr.GetInt32(9)));
+
+            product.Id = rdr.GetInt32(0);
+            product.MediaType = parsedMediaType;
+            product.Movie = movie;
+            product.Price = rdr.GetInt32(9);
+            return product;
+        }
+
+        public Product GetProductById(int id)
+        {
+            Product product = new Product();
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string sql = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE products.id = {id};";
+
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sql, connectionObj);
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                product = ParseDBTo(product, rdr);
+            }
+
+            return product;
         }
     }
 }
