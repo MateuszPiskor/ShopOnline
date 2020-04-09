@@ -65,7 +65,7 @@ namespace ShopOnline.DataAccess
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id; ";
 
-            return GetFilteredProducts(sqlQuery);
+            return GtSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByTitlePart(string partOfTitle)
@@ -77,7 +77,7 @@ namespace ShopOnline.DataAccess
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE title LIKE '%{partOfTitle}%' OR title LIKE '%{partOfTitle.ToUpper()}%'; ";
 
-            return GetFilteredProducts(sqlQuery);
+            return GtSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByGenre(string genre)
@@ -89,7 +89,7 @@ namespace ShopOnline.DataAccess
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE genres.name = '{genre}'; ";
 
-            return GetFilteredProducts(sqlQuery);
+            return GtSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByDirector(string director)
@@ -101,7 +101,7 @@ namespace ShopOnline.DataAccess
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE director = '{director}'; ";
 
-            return GetFilteredProducts(sqlQuery);
+            return GtSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByRating(int rating)
@@ -113,10 +113,10 @@ namespace ShopOnline.DataAccess
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE rating = '{rating}'; ";
 
-            return GetFilteredProducts(sqlQuery);
+            return GtSelectedProducts(sqlQuery);
         }
 
-        private List<Product> GetFilteredProducts(string sqlQuery)
+        private List<Product> GtSelectedProducts(string sqlQuery)
         {
             List<Product> allProducts = new List<Product>();
 
