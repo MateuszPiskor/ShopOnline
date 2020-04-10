@@ -16,7 +16,7 @@ namespace ShopOnline.DataAccess
 
         public void CreateCart()
         {
-            var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string command = $"INSERT INTO carts (id) SELECT(SELECT MAX(id) from carts) +1";
 
             con.Open();
@@ -26,7 +26,7 @@ namespace ShopOnline.DataAccess
 
         public void AddToBasket(int product_id,int quantity)
         {
-            var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string productPrice = $"(SELECT price FROM products WHERE id = {product_id})";
             string command=$@"INSERT INTO cart_items(product_id, quantity, unit_price, subtotal)
                             VALUES({product_id}, {quantity},{productPrice} ,({quantity} * {productPrice}))";
@@ -34,7 +34,7 @@ namespace ShopOnline.DataAccess
             con.Open();
 
             using var preparedCommand = new NpgsqlCommand(command, con);
-            using var reader=preparedCommand.ExecuteReader();
+            preparedCommand.ExecuteNonQuery();
         }
 
         public void ChangeQuantity(int product_id, int quantity)
@@ -47,7 +47,7 @@ namespace ShopOnline.DataAccess
             con.Open();
 
             using var preparedCommand = new NpgsqlCommand(command, con);
-            using var reader = preparedCommand.ExecuteReader();
+            preparedCommand.ExecuteNonQuery();
         }
 
         public void RemoveWhenIsZero()
@@ -59,14 +59,14 @@ namespace ShopOnline.DataAccess
             con.Open();
 
             using NpgsqlCommand preparedCommand = new NpgsqlCommand(command, con);
-            using var reader= preparedCommand.ExecuteReader();
+            preparedCommand.ExecuteNonQuery();
 
         }
 
         public List<CartItem> GetCardItem()
         {
             List<CartItem> CartItems = new List<CartItem>();
-            var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string command = $@"SELECT * FROM cart_items";
 
             con.Open();
@@ -80,6 +80,17 @@ namespace ShopOnline.DataAccess
             }
 
             return CartItems;
+        }
+        public void ClearCart()
+        {
+            NpgsqlConnection con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = "DELETE FROM cart_items";
+
+            con.Open();
+
+            using NpgsqlCommand preparedCommand = new NpgsqlCommand(command, con);
+            preparedCommand.ExecuteNonQuery();
+
         }
     }
 }
