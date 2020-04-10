@@ -6,11 +6,13 @@ namespace ShopOnline.Model
 {
     public class Payment
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public float Cost { get; set; }
 
-        public Payment(string name, float cost)
+        public Payment(int id, string name, float cost)
         {
+            Id = id;
             Name = name;
             Cost = cost;
         }
