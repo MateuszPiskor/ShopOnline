@@ -57,7 +57,7 @@ namespace ShopOnline.DataAccess
             return delivery;
         }
 
-        public void PlaceOrder(Customer customer, Payment payment, Delivery delivery, Cart cart)
+        public void ConfirmOrder(Customer customer, Payment payment, Delivery delivery, Cart cart)
         {
             NpgsqlConnection con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string command = $@"INSERT INTO orders  
