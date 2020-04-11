@@ -5,6 +5,8 @@ namespace ShopOnline.Views
     {
         public View()
         {
+            
         }
+        
     }
 }
