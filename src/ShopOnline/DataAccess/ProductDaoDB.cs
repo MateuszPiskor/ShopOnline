@@ -125,7 +125,7 @@ namespace ShopOnline.DataAccess
 
         public List<Product> GetProductsByDirector(string director)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
@@ -137,7 +137,7 @@ namespace ShopOnline.DataAccess
 
         public List<Product> GetProductsByRating(int rating)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
