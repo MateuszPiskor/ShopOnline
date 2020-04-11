@@ -16,6 +16,7 @@ namespace ShopOnline.Views
             {
                 Console.WriteLine(movie.ToString());
             }
+            Console.WriteLine();
         }
 
         public void PrintProducts(List<Product> products)
@@ -24,6 +25,7 @@ namespace ShopOnline.Views
             {
                 Console.WriteLine(product.ToString());
             }
+            Console.WriteLine();
         }
 
         public void PrintMovie(Movie movie)
@@ -34,6 +36,22 @@ namespace ShopOnline.Views
             Console.WriteLine($"Story:");
             Console.WriteLine(movie.Description);
             Console.WriteLine();
+        }
+
+        public void PrintDictionary(Dictionary<int, string> dictionary)
+        {
+            foreach (KeyValuePair<int, string> element in dictionary)
+            {
+                Console.WriteLine($"{element.Key}) {element.Value}");
+            }
+            Console.WriteLine();
+        }
+
+        public string GetUserInput(string message)
+        {
+            Console.Write(message);
+            string output = Console.ReadLine();
+            return output;
         }
     }
 }
