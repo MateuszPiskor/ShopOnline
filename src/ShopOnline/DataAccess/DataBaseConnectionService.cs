@@ -5,10 +5,10 @@ namespace ShopOnline.DataAccess
     public class DataBaseConnectionService
     {
         public string HostAddress { get; set; }
-        public string  HostName { get; set; }
+        public string HostName { get; set; }
         public string HostPassword { get; set; }
         public string DatabaseName { get; set; }
-        
+
         public DataBaseConnectionService(string hostAddress, string hostName, string hostPassword, string databaseName)
         {
             HostAddress = hostAddress;

@@ -6,5 +6,10 @@ namespace ShopOnline.DataAccess
         public CustomerDaoDB()
         {
         }
+
+        public void CreateCustomer()
+        {
+            
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace ShopOnline.Views
     {
         public View()
         {
+            
         }
 
         public void PrintMovies(List<Movie> movies)

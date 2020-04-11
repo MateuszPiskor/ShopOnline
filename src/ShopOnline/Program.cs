@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using ShopOnline.Controller;
+using ShopOnline.DataAccess;
+using ShopOnline.Model;
 
 namespace ShopOnline
 {
@@ -6,7 +10,12 @@ namespace ShopOnline
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var cartItem = new CartItemDaoDB();
+            List<CartItem> cartsItems = cartItem.GetCardItem();
+            foreach(var item in cartsItems)
+            {
+                Console.WriteLine(item.ToString());
+            }
         }
     }
 }
