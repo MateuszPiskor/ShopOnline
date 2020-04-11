@@ -10,6 +10,12 @@ namespace ShopOnline.Views
         {
         }
 
+        public void PrintMessage(string message)
+        {
+            Console.WriteLine(message);
+            Console.WriteLine();
+        }
+
         public void PrintMovies(List<Movie> movies)
         {
             foreach(Movie movie in movies)
