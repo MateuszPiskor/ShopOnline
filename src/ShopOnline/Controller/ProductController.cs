@@ -61,6 +61,9 @@ namespace ShopOnline.Controller
                     case 7:
                         GetProductsByRating();
                         break;
+                    default:
+                        view.PrintMessage("Choose one of the available options");
+                        break;
                 }
             }
         }
