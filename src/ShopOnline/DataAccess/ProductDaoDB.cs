@@ -20,7 +20,7 @@ namespace ShopOnline.DataAccess
             List<Movie> allMovies = new List<Movie>();
 
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string sql = @"SELECT movies.id, title, genres.name, production_year, director, description, rating
+            string sql = @"SELECT movies.id, title, genres.id, genres.name, production_year, director, description, rating
                            FROM movies
                            LEFT JOIN genres ON movies.genre_id = genres.id;";
 
@@ -39,7 +39,7 @@ namespace ShopOnline.DataAccess
         {
             Product product = new Product();
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string sql = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sql = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
@@ -59,64 +59,95 @@ namespace ShopOnline.DataAccess
 
         public List<Product> GetAllProducts()
         {
-            string sqlQuery = @"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id; ";
 
-            return GtSelectedProducts(sqlQuery);
+            return GetSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByTitlePart(string partOfTitle)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE title LIKE '%{partOfTitle}%' OR title LIKE '%{partOfTitle.ToUpper()}%'; ";
 
-            return GtSelectedProducts(sqlQuery);
+            return GetSelectedProducts(sqlQuery);
         }
 
-        public List<Product> GetProductsByGenre(string genre)
+        public List<Product> GetProductsByGenre(int genreId)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id
-                           WHERE genres.name = '{genre}'; ";
+                           WHERE genres.id = '{genreId}'; ";
 
-            return GtSelectedProducts(sqlQuery);
+            return GetSelectedProducts(sqlQuery);
+        }
+
+        public Dictionary<int, string> GetAllGenres()
+        {
+            string sqlQuery = @$"SELECT DISTINCT genres.id, genres.name
+                           FROM products
+                           INNER JOIN movies ON products.movie_id = movies.id
+                           INNER JOIN genres ON movies.genre_id = genres.id;";
+
+            return GetSelectedTypes(sqlQuery);
+        }
+
+        public List<Product> GetProductsByMediaType(int mediaTypeId)
+        {
+            string sqlQuery = @$"SELECT products.id, media_types.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
+                           FROM products
+                           LEFT JOIN media_types ON products.mediatype_id = media_types.id
+                           LEFT JOIN movies ON products.movie_id = movies.id
+                           LEFT JOIN genres ON movies.genre_id = genres.id
+                           WHERE media_types.id = '{mediaTypeId}'; ";
+
+            return GetSelectedProducts(sqlQuery);
+        }
+
+        public Dictionary<int, string> GetAllMediaTypes()
+        {
+            string sqlQuery = @$"SELECT DISTINCT media_types.id, media_types.name
+                                 FROM products
+                                 INNER JOIN media_types ON products.mediatype_id = media_types.id; ";
+
+            return GetSelectedTypes(sqlQuery);
         }
 
         public List<Product> GetProductsByDirector(string director)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE director = '{director}'; ";
 
-            return GtSelectedProducts(sqlQuery);
+            return GetSelectedProducts(sqlQuery);
         }
 
         public List<Product> GetProductsByRating(int rating)
         {
-            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.name, production_year, director, description, rating, price
+            string sqlQuery = @$"SELECT products.id, media_types.name, movies.id, title, genres.id, genres.name, production_year, director, description, rating, price
                            FROM products
                            LEFT JOIN media_types ON products.mediatype_id = media_types.id
                            LEFT JOIN movies ON products.movie_id = movies.id
                            LEFT JOIN genres ON movies.genre_id = genres.id
                            WHERE rating = '{rating}'; ";
 
-            return GtSelectedProducts(sqlQuery);
+            return GetSelectedProducts(sqlQuery);
         }
 
-        private List<Product> GtSelectedProducts(string sqlQuery)
+        private List<Product> GetSelectedProducts(string sqlQuery)
         {
             List<Product> allProducts = new List<Product>();
 
@@ -135,11 +166,28 @@ namespace ShopOnline.DataAccess
             return allProducts;
         }
 
+        private Dictionary<int, string> GetSelectedTypes(string sqlQuery)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
+
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string sql = sqlQuery;
+
+            connectionObj.Open();
+            using var cmd = new NpgsqlCommand(sqlQuery, connectionObj);
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                result.Add(rdr.GetInt32(0), rdr.GetString(1));
+            }
+            return result;
+        }
+
         private void ParseDBTo(List<Movie> allMovies, NpgsqlDataReader rdr)
         {
-            string genre = rdr.GetString(2);
-            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
-            allMovies.Add(new Movie(rdr.GetInt32(0), rdr.GetString(1), parsedGenre, rdr.GetInt32(3), rdr.GetString(4), rdr.GetString(5), rdr.GetInt32(6)));
+            Genre genre = new Genre(rdr.GetInt32(2), rdr.GetString(3));
+            allMovies.Add(new Movie(rdr.GetInt32(0), rdr.GetString(1), genre, rdr.GetInt32(4), rdr.GetString(5), rdr.GetString(6), rdr.GetInt32(7)));
         }
 
         private void ParseDBTo(List<Product> allProducts, NpgsqlDataReader rdr)
@@ -151,16 +199,14 @@ namespace ShopOnline.DataAccess
 
         private Product ParseDBTo(Product product, NpgsqlDataReader rdr)
         {
-            string genre = rdr.GetString(4);
-            Genre parsedGenre = (Genre)Enum.Parse(typeof(Genre), genre);
-            Movie movie = new Movie(rdr.GetInt32(2), rdr.GetString(3), parsedGenre, rdr.GetInt32(5), rdr.GetString(6), rdr.GetString(7), rdr.GetInt32(8));
-            string mediaType = rdr.GetString(1);
-            MediaType parsedMediaType = (MediaType)Enum.Parse(typeof(MediaType), mediaType);
-
+            MediaType mediaType = new MediaType(rdr.GetInt32(1), rdr.GetString(2));
+            Genre genre = new Genre(rdr.GetInt32(5), rdr.GetString(6));
+            Movie movie = new Movie(rdr.GetInt32(3), rdr.GetString(4), genre, rdr.GetInt32(7), rdr.GetString(8), rdr.GetString(9), rdr.GetInt32(10));
+            
             product.Id = rdr.GetInt32(0);
-            product.MediaType = parsedMediaType;
+            product.MediaType = mediaType;
             product.Movie = movie;
-            product.Price = rdr.GetInt32(9);
+            product.Price = rdr.GetInt32(11);
             return product;
         }
 
