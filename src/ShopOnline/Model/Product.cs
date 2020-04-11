@@ -22,7 +22,7 @@ namespace ShopOnline.Model
 
         public override string ToString()
         {
-            return $"{Id} - {Movie} - {MediaType}, {Price} zł";
+            return $"{Id} - {Movie} - {MediaType.Name}, {Price} zł";
         }
     }
 }
