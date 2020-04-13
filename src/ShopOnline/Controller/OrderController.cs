@@ -22,6 +22,7 @@ namespace ShopOnline.Controller
             SetPaymentMethod();
             SetDeliveryOption();
 
+            PlaceOrder();
         }
 
         private void SetPaymentMethod()
@@ -39,7 +40,21 @@ namespace ShopOnline.Controller
             int selectedDeliveryId = Int32.Parse(view.GetUserInput("Select delivery option (choose number): "));
             Delivery selectedDelivery = orderDao.GetDeliveryOption(selectedDeliveryId);
             order.Delivery = new Delivery(selectedDelivery.Id, selectedDelivery.Name, selectedDelivery.Cost);
+        }
 
+        private void PlaceOrder()
+        {
+            string userInput = view.GetUserInput("Press 'y' to confirm placing the order: ");
+            if (userInput == "y")
+            {
+                // Set Customer details
+                orderDao.CreateOrder(order);
+                view.PrintOrderConfirmation(order);
+            }
+            else
+            {
+                view.PrintMessage("Order not confirmed.");
+            }
         }
     }
 }
