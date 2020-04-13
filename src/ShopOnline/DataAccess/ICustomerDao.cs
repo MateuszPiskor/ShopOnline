@@ -10,8 +10,8 @@ namespace ShopOnline.DataAccess
         List<Customer> GetAllCustomers();
         Customer GetCustomerById(int id);
         void RemoveCustomer(int id);
-        void InsertNewCustomer(string first_name, string last_name, string city, string postCode, string street, string email, string phone,
-                        bool is_registered, string passwo);
+        void InsertNewCustomer(string firstName, string lastName, string city, string postCode, string street, string email, string phone,
+                        bool isRegistered, string passwo);
         void UpdateCustomerDetails(string city, string postCode, string street, string email, string phone,int id);
         void UpdateCustomerPhoneNumber(string newPhone, int id);
         void UpdateCustomerEmail(string newEmail, int id);
