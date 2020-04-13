@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<shopdetails>
+	<AboutUs>
+		We are media-service provider sharing access to the best movies. But we still have in mind 
+		that you might prefer using storage mediums - not only those contemporary but a little "ancient" as well.
+		We would love to share with you our Collection and make you just happy! We are keen to help 
+		you relax not only after signing up to our database and choosing what you wish but also with 
+		the sound of briskly spinning DVD. Moreover, something for real connoisseurs: the whisper 
+		and smell of working magnetic tape cassettes are possible to be heard and felt again! 
+		The purest old-school!
+		Come in, enjoy and spend beautiful moments with us!
+	</AboutUs>
+	<ContactOptions>
+		<Form>
+		We would like to encourage you to send us your opinion,
+		or a description of any issues during enjoying our Collection 
+		or anything else you'd like to share with us</Form>
+		<Phone>+48 235 465 654</Phone>
+		<email>form@shoponline.com</email>
+	</ContactOptions>
+</shopdetails>
