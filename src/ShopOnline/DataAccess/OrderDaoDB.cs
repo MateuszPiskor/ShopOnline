@@ -62,7 +62,7 @@ namespace ShopOnline.DataAccess
             NpgsqlConnection con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string command = $@"INSERT INTO orders  
                 (date, customer_id, cart_id, paymentmethod_id, deliveryoption_id)
-                VALUES (now(), {customer.Id}, {cart.Id}, {payment.Id}, {delivery.Id});";
+                VALUES (now(), {customer.id}, {cart.Id}, {payment.Id}, {delivery.Id});";
 
             con.Open();
 
