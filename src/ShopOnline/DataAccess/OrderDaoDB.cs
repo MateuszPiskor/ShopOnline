@@ -65,6 +65,27 @@ namespace ShopOnline.DataAccess
             return payment;
         }
 
+        public List<Payment> GetAllPaymentMethods()
+        {
+            List<Payment> allPayments = new List<Payment>();
+
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $"SELECT id,name,cost FROM payment_methods;";
+
+            con.Open();
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            using var reader = preparedCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                float price = reader.GetFloat(2);
+                allPayments.Add(new Payment(id, name, price));
+            }
+            return allPayments;
+        }
+
         public Delivery GetDeliveryOption(int deliveryId)
         {
             using var con = DataBaseConnectionService.GetDatabaseConnectionObject();

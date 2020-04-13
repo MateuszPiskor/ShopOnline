@@ -9,6 +9,7 @@ namespace ShopOnline.DataAccess
         void CreateOrder(Customer customer, Cart cart, Payment payment, Delivery delivery, int totalPrice);
         void CreateOrder(Order order);
         Payment GetPaymentMethod(int paymentId);
+        List<Payment> GetAllPaymentMethods();
         Delivery GetDeliveryOption(int deliveryId);
         void RemoveOrder();
         void UpdateOrder();

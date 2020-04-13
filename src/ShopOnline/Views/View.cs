@@ -59,5 +59,14 @@ namespace ShopOnline.Views
             string output = Console.ReadLine();
             return output;
         }
+
+        public void PrintPayments(List<Payment> payments)
+        {
+            foreach (Payment payment in payments)
+            {
+                Console.WriteLine(payment.ToString());
+            }
+            Console.WriteLine();
+        }
     }
 }
