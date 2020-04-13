@@ -28,7 +28,7 @@ namespace ShopOnline.Model
 
         public override string ToString()
         {
-            return $"{Title} ({ProductionYear}), {Genre}, {Rating}*";
+            return $"{Title} ({ProductionYear}), {Genre.Name}, {Rating}*";
         }
     }
 }
