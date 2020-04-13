@@ -8,14 +8,14 @@ namespace ShopOnline.Model
         public Cart Cart { get; set; }
         public Payment Payment { get; set; }
         public Delivery Delivery { get; set; }
-        public double TotalPrice { get; set; }
+        public int TotalPrice { get; set; }
         public Customer Customer { get; set; }
 
         public Order()
         {
         }
 
-        public Order(int id, DateTime date, Cart cart, Payment payment, Delivery delivery, double totalPrice, Customer customer)
+        public Order(int id, DateTime date, Cart cart, Payment payment, Delivery delivery, int totalPrice, Customer customer)
         {
             Id = id;
             Date = date;
