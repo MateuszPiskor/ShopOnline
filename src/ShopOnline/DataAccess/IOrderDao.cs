@@ -7,6 +7,9 @@ namespace ShopOnline.DataAccess
     public interface IOrderDao
     {
         void CreateOrder(Customer customer, Cart cart, Payment payment, Delivery delivery, int totalPrice);
+        void CreateOrder(Order order);
+        Payment GetPaymentMethod(int paymentId);
+        Delivery GetDeliveryOption(int deliveryId);
         void RemoveOrder();
         void UpdateOrder();
         Order GetOrderById(int id);

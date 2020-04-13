@@ -30,6 +30,75 @@ namespace ShopOnline.DataAccess
             cmd.ExecuteNonQuery();
         }
 
+        public void CreateOrder(Order order)
+        {
+            using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string sql = @"INSERT INTO orders(customer_id, cart_id, paymentmethod_id, deliveryoption_id, total_price) VALUES(@customerId, @cartId, @paymentId, @deliveryId, @totalPrice);";
+            connectionObj.Open();
+
+            using var cmd = new NpgsqlCommand(sql, connectionObj);
+            cmd.Parameters.AddWithValue("@customerId", order.Customer.Id);
+            cmd.Parameters.AddWithValue("@cart_id", order.Cart.Id);
+            cmd.Parameters.AddWithValue("@paymentId", order.Payment.Id);
+            cmd.Parameters.AddWithValue("@deliveryId", order.Delivery.Id);
+            cmd.Parameters.AddWithValue("@totalPrice", order.TotalPrice);
+            cmd.ExecuteNonQuery();
+        }
+
+        public Payment GetPaymentMethod(int paymentId)
+        {
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $"SELECT id,name,cost FROM payment_methods WHERE id={paymentId}";
+
+            con.Open();
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            using var reader = preparedCommand.ExecuteReader();
+            Payment payment = null;
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                float price = reader.GetFloat(2);
+                payment = new Payment(id, name, price);
+            }
+            return payment;
+        }
+
+        public Delivery GetDeliveryOption(int deliveryId)
+        {
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $"SELECT id,name,cost FROM delivery_options WHERE id={deliveryId}";
+
+            con.Open();
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            using var reader = preparedCommand.ExecuteReader();
+            Delivery delivery = null;
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                float price = reader.GetFloat(2);
+                delivery = new Delivery(id, name, price);
+            }
+
+            return delivery;
+        }
+
+        public void ConfirmOrder(Customer customer, Payment payment, Delivery delivery, Cart cart)
+        {
+            NpgsqlConnection con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $@"INSERT INTO orders  
+                (date, customer_id, cart_id, paymentmethod_id, deliveryoption_id)
+                VALUES (now(), {customer.Id}, {cart.Id}, {payment.Id}, {delivery.Id});";
+
+            con.Open();
+
+            using NpgsqlCommand preparedCommand = new NpgsqlCommand(command, con);
+            preparedCommand.ExecuteNonQuery();
+        }
+
         public Order GetOrderById(int id)
         {
             throw new NotImplementedException();
