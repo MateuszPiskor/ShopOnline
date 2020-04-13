@@ -6,9 +6,12 @@ namespace ShopOnline.Views
 {
     public class View
     {
-        public View()
+        public void displayMenu(string [] rows)
         {
-            
+            foreach(var row in rows)
+            {
+                Console.WriteLine(row);
+            }
         }
 
         public void PrintMessage(string message)
@@ -24,6 +27,12 @@ namespace ShopOnline.Views
                 Console.WriteLine(movie.ToString());
             }
             Console.WriteLine();
+        }
+
+        public string getAnswer()
+        {
+            Console.WriteLine("You chosse: ");
+            return Console.ReadLine();
         }
 
         public void PrintProducts(List<Product> products)
