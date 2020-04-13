@@ -3,30 +3,30 @@ namespace ShopOnline.Model
 {
     public class Customer
     {
-        public int id { get; }
-        public string first_name { get; }
-        public string last_name { get; }
-        public CustomerDetails details { get; set; }
-        public bool registret;
-        private string pass;
+        public int Id { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public CustomerDetails Details { get; set; }
+        public bool Registered;
+        private string Pass;
 
 
-        public Customer(int id, string first_name, string last_name, CustomerDetails details,
-                        bool is_registered, string password)
+        public Customer(int id, string firstName, string lastName, CustomerDetails details,
+                        bool isRegistered, string password)
         {
 
-            this.id = id;
-            this.first_name = first_name;
-            this.last_name = last_name;
-            this.details = details;
-            this.registret = is_registered;
-            this.pass = password;
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Details = details;
+            Registered = isRegistered;
+            Pass = password;
 
 
         }
         public override string ToString()
         {
-            return $"{id} {first_name} {last_name} {details} {registret} {pass}";
+            return $"{Id} {FirstName} {LastName} {Details} {Registered} {Pass}";
         }
         
 

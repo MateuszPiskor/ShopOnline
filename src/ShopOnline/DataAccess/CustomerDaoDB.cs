@@ -110,9 +110,9 @@ namespace ShopOnline.DataAccess
             cmd.ExecuteNonQuery();
 
         }
-        public void InsertNewCustomer(string first_name, string last_name, string city,
+        public void InsertNewCustomer(string firstName, string lastName, string city,
                                       string postCode, string street, string email, string phone,
-                                      bool is_registered, string password)
+                                      bool isRegistered, string password)
         {
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
             connectionObj.Open();
@@ -120,14 +120,14 @@ namespace ShopOnline.DataAccess
                        + "VALUES (@first_name, @last_name, @city, @post_code, @street, @email, @phone, @is_registered, @password)";
             using var cmd = new NpgsqlCommand(sql, connectionObj);
 
-            cmd.Parameters.AddWithValue("first_name", first_name);
-            cmd.Parameters.AddWithValue("last_name", last_name);
+            cmd.Parameters.AddWithValue("first_name", firstName);
+            cmd.Parameters.AddWithValue("last_name", lastName);
             cmd.Parameters.AddWithValue("city", city);
             cmd.Parameters.AddWithValue("post_code", postCode);
             cmd.Parameters.AddWithValue("street", street);
             cmd.Parameters.AddWithValue("email", email);
             cmd.Parameters.AddWithValue("phone", phone);
-            cmd.Parameters.AddWithValue("is_registered", false);
+            cmd.Parameters.AddWithValue("is_registered", isRegistered);
             cmd.Parameters.AddWithValue("password", password);
 
 

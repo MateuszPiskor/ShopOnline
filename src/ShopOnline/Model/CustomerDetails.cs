@@ -3,36 +3,36 @@ namespace ShopOnline.Model
 {
     public class CustomerDetails
     {
-        public string city { get; set; }
-        public string postCode { get; set; }
-        public string street { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
+        public string City { get; set; }
+        public string PostCode { get; set; }
+        public string Street { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
 
 
 
         public CustomerDetails(string city, string postCode, string street, string email, string phone)
         {
-            this.city = city;
-            this.postCode = postCode;
-            this.street = street;
-            this.email = email;
-            this.phone = phone;
+            City = city;
+            PostCode = postCode;
+            Street = street;
+            Email = email;
+            Phone = phone;
 
         }
 
         public CustomerDetails()
         {
-            city = "unknown";
-            postCode = "unknown";
-            street = "unknown";
-            email = "unknown";
-            phone = "unknown";
+            City = "unknown";
+            PostCode = "unknown";
+            Street = "unknown";
+            Email = "unknown";
+            Phone = "unknown";
         }
         
         public override string ToString()
         {
-            return $"{city} {postCode} {street} {email} {phone}";
+            return $"{City} {PostCode} {Street} {Email} {Phone}";
         }
     }
 }
