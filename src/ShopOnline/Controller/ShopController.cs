@@ -45,7 +45,7 @@ namespace ShopOnline.Controller
 
         private string getUserChoice()
         {
-            return View.getAnswer();
+            return View.GetAnswer();
         }
 
         private List<Product> GetAllProducts()

@@ -100,5 +100,19 @@ namespace ShopOnline.Views
             Console.WriteLine();
             Console.WriteLine($"Total price: {order.TotalPrice} zł");
         }
+
+        public void DisplayMenu(string[] rows)
+        {
+            foreach (var row in rows)
+            {
+                Console.WriteLine(row);
+            }
+        }
+
+        public string GetAnswer()
+        {
+            Console.WriteLine("Choose option: ");
+            return Console.ReadLine();
+        }
     }
 }

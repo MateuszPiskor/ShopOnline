@@ -12,8 +12,8 @@ namespace ShopOnline.Controller
             View=new View(); 
         }
         public void runMainController() {
-            View.displayMenu(menu);
-            string mainMenuChoice=View.getAnswer();
+            View.DisplayMenu(menu);
+            string mainMenuChoice=View.GetAnswer();
             switch (mainMenuChoice)
             {
                 case "1": 
