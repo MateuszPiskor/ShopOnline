@@ -14,13 +14,13 @@ namespace ShopOnline.DataAccess
             DataBaseConnectionService=new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
         }
 
-        public void AddToBasket(int product_id)
+        public void AddToBasket(int product_id, int cart_id)
         {
             int defaultQuantity = 1;
             using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string productPrice = $"(SELECT price FROM products WHERE id = {product_id})";
-            string command=$@"INSERT INTO cart_items(product_id, quantity, unit_price, subtotal)
-                            VALUES({product_id}, {defaultQuantity},{productPrice} ,({defaultQuantity}* {productPrice}))";
+            string command=$@"INSERT INTO cart_items(product_id, quantity, unit_price, subtotal,cart_id)
+                            VALUES({product_id}, {defaultQuantity},{productPrice} ,({defaultQuantity}* {productPrice}),{cart_id})";
 
             con.Open();
 

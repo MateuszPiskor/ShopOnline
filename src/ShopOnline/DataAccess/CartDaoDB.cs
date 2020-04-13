@@ -25,23 +25,37 @@ namespace ShopOnline.DataAccess
             preparedCommand.ExecuteNonQuery();
         }
 
+        public void UpdateTotalPrice()
+        {
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = @"UPDATE carts
+                            SET total_price = (SELECT SUM(subtotal) FROM cart_items ci
+                            INNER JOIN carts c ON ci.cart_id = c.id
+                                WHERE ci.cart_id = (SELECT MAX(id) from carts))
+	                        WHERE id = (SELECT MAX(id) from carts)";
 
-        //public Cart GetCurrentCart()
-        //{
-        //    using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
-        //    string command = $@"SELECT MAX(id) from carts";
+            con.Open();
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            preparedCommand.ExecuteNonQuery();
+        }
 
-        //    con.Open();
+        public Cart GetCurrentCart()
+        {
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $@"SELECT id,total_price from carts
+                                WHERE id=(SELECT max(id) from carts);";
 
-        //    using var preparedCommand = new NpgsqlCommand(command, con);
-        //    using var reader = preparedCommand.ExecuteReader();
+            con.Open();
 
-        //    Cart cart;
-        //    while (reader.Read())
-        //    {
-        //        cart = new Cart() { I }
-        //    }
-        //    return Cart;
-        //}
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            using var reader = preparedCommand.ExecuteReader();
+
+            Cart Cart=null;
+            while (reader.Read())
+            {
+                Cart = new Cart(reader.GetInt32(0), reader.GetInt32(1));
+            }
+            return Cart;
+        }
     }
 }

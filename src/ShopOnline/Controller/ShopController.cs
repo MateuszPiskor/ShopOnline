@@ -9,17 +9,18 @@ namespace ShopOnline.Controller
     public class ShopController
     {
         public View View { get; private set; }
-        public CartDaoDB CartDB { get; set; }
+        public CartDaoDB cartDaoDB=new CartDaoDB();
+        public Cart Cart { get; set; }
 
         public ShopController(View view)
         {
             View = view;
-            CartDB = new CartDaoDB();
+            cartDaoDB.CreateEmptyCart();
+            Cart=cartDaoDB.GetCurrentCart();
         }
 
         public void runShopController()
         {
-            CartDB.CreateEmptyCart();
             List<Product> allProducts = GetAllProducts();
             PrintProdutcs(allProducts);
             string userChoice = getUserChoice();
@@ -28,17 +29,18 @@ namespace ShopOnline.Controller
 
         private void HandleUserChoice(List<Product> allProducts, string userChoice)
         {
+
             if (int.Parse(userChoice) > 0 && int.Parse(userChoice) < allProducts.Count)
             {
-                //var Cart = CartDB.GetCurrentCart();
-                AddToBasket(userChoice);
+                AddToBasket(userChoice,Cart.Id);
             }
         }
 
-        private static void AddToBasket(string userChoice)
+        public void AddToBasket(string userChoice,int cart_id)
         {
             var cartItemDaoDB = new CartItemDaoDB();
-            cartItemDaoDB.AddToBasket(int.Parse(userChoice));
+            cartItemDaoDB.AddToBasket(int.Parse(userChoice),cart_id);
+            cartDaoDB.UpdateTotalPrice();
         }
 
         private string getUserChoice()

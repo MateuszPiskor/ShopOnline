@@ -12,9 +12,17 @@ namespace ShopOnline.DataAccess.Tests
         [TestMethod()]
         public void CreateEmptyCartTest()
         {
-            var cart=new CartDaoDB();
+            var cart = new CartDaoDB();
             cart.CreateEmptyCart();
 
+        }
+
+        [TestMethod()]
+        public void GetCurrentCartTest()
+        {
+            var cartDAO=new CartDaoDB();
+            var Cart=cartDAO.GetCurrentCart();
+            Console.WriteLine(Cart.ToString());
         }
     }
 }
