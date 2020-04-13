@@ -68,5 +68,14 @@ namespace ShopOnline.Views
             }
             Console.WriteLine();
         }
+
+        public void PrintPayments(List<Delivery> deliveries)
+        {
+            foreach (Delivery delivery in deliveries)
+            {
+                Console.WriteLine(delivery.ToString());
+            }
+            Console.WriteLine();
+        }
     }
 }

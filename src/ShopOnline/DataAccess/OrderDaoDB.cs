@@ -59,7 +59,7 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                float price = reader.GetFloat(2);
+                double price = reader.GetFloat(2);
                 payment = new Payment(id, name, price);
             }
             return payment;
@@ -80,10 +80,31 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                float price = reader.GetFloat(2);
+                double price = reader.GetFloat(2);
                 allPayments.Add(new Payment(id, name, price));
             }
             return allPayments;
+        }
+
+        public List<Delivery> GetAllDeliveryOptions()
+        {
+            List<Delivery> allDeliveries = new List<Delivery>();
+
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $"SELECT id,name,cost FROM delivery_options;";
+
+            con.Open();
+            using var preparedCommand = new NpgsqlCommand(command, con);
+            using var reader = preparedCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                double price = reader.GetFloat(2);
+                allDeliveries.Add(new Delivery(id, name, price));
+            }
+            return allDeliveries;
         }
 
         public Delivery GetDeliveryOption(int deliveryId)
@@ -100,7 +121,7 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                float price = reader.GetFloat(2);
+                double price = reader.GetFloat(2);
                 delivery = new Delivery(id, name, price);
             }
 

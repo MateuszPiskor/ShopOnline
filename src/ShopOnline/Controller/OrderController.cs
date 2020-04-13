@@ -20,6 +20,7 @@ namespace ShopOnline.Controller
         {
             // view.PrintCart();
             SetPaymentMethod();
+            SetDeliveryOption();
 
         }
 
@@ -29,6 +30,15 @@ namespace ShopOnline.Controller
             int selectedPaymentId = Int32.Parse(view.GetUserInput("Select payment method (choose number): "));
             Payment selectedPayment = orderDao.GetPaymentMethod(selectedPaymentId);
             order.Payment = new Payment(selectedPayment.Id, selectedPayment.Name, selectedPayment.Cost);
+
+        }
+
+        private void SetDeliveryOption()
+        {
+            view.PrintPayments(orderDao.GetAllDeliveryOptions());
+            int selectedDeliveryId = Int32.Parse(view.GetUserInput("Select delivery option (choose number): "));
+            Delivery selectedDelivery = orderDao.GetDeliveryOption(selectedDeliveryId);
+            order.Delivery = new Delivery(selectedDelivery.Id, selectedDelivery.Name, selectedDelivery.Cost);
 
         }
     }

@@ -11,6 +11,7 @@ namespace ShopOnline.DataAccess
         Payment GetPaymentMethod(int paymentId);
         List<Payment> GetAllPaymentMethods();
         Delivery GetDeliveryOption(int deliveryId);
+        List<Delivery> GetAllDeliveryOptions();
         void RemoveOrder();
         void UpdateOrder();
         Order GetOrderById(int id);
