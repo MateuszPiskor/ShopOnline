@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace ShopOnline.Model
 {
     public class Delivery
@@ -16,6 +19,11 @@ namespace ShopOnline.Model
             Id = id;
             Name = name;
             Cost = cost;
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} - {Name} - price: {Cost} zł";
         }
     }
 }

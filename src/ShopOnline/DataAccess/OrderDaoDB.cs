@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Npgsql;
 using ShopOnline.Model;
@@ -7,15 +7,15 @@ namespace ShopOnline.DataAccess
 {
     public class OrderDaoDB : IOrderDao
     {
-        DataBaseConnectionService DataBaseConnectionService;
+        public DataBaseConnectionService DataBaseConnectionService { get; private set; }
 
         public OrderDaoDB()
-        {
-            DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
-        }
+            {
+                DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
+                //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
+            }
 
-
-        public void CreateOrder(Customer customer, Cart cart, Payment payment, Delivery delivery, int totalPrice)
+        public void CreateOrder(Customer customer, Cart cart, Payment payment, Delivery delivery, double totalPrice)
         {
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
             string sql = @"INSERT INTO orders(customer_id, cart_id, paymentmethod_id, deliveryoption_id, total_price) VALUES(@customerId, @cartId, @paymentId, @deliveryId, @totalPrice);";
@@ -53,13 +53,14 @@ namespace ShopOnline.DataAccess
             con.Open();
             using var preparedCommand = new NpgsqlCommand(command, con);
             using var reader = preparedCommand.ExecuteReader();
+
             Payment payment = null;
 
             while (reader.Read())
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                double price = reader.GetFloat(2);
+                double price = reader.GetDouble(2);
                 payment = new Payment(id, name, price);
             }
             return payment;
@@ -80,7 +81,7 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                double price = reader.GetFloat(2);
+                double price = reader.GetDouble(2);
                 allPayments.Add(new Payment(id, name, price));
             }
             return allPayments;
@@ -101,7 +102,7 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                double price = reader.GetFloat(2);
+                double price = reader.GetDouble(2);
                 allDeliveries.Add(new Delivery(id, name, price));
             }
             return allDeliveries;
@@ -121,7 +122,7 @@ namespace ShopOnline.DataAccess
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
-                double price = reader.GetFloat(2);
+                double price = reader.GetDouble(2);
                 delivery = new Delivery(id, name, price);
             }
 

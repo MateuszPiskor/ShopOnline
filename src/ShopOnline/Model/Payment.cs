@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace ShopOnline.Model
 {
     public class Payment
@@ -12,6 +15,7 @@ namespace ShopOnline.Model
         }
 
         public Payment(int id, string name, double cost)
+
         {
             Id = id;
             Name = name;

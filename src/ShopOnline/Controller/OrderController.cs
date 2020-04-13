@@ -12,8 +12,15 @@ namespace ShopOnline.Controller
         Order order = new Order();
         IOrderDao orderDao = new OrderDaoDB();
 
+
         public OrderController()
         {
+        }
+
+        public OrderController(Cart cart)
+        {
+            order.Cart = cart;
+            order.TotalPrice = cart.TotalPrice;
         }
 
         public void RunOrderController()
@@ -36,7 +43,7 @@ namespace ShopOnline.Controller
 
         private void SetDeliveryOption()
         {
-            view.PrintPayments(orderDao.GetAllDeliveryOptions());
+            view.PrintDeliveries(orderDao.GetAllDeliveryOptions());
             int selectedDeliveryId = Int32.Parse(view.GetUserInput("Select delivery option (choose number): "));
             Delivery selectedDelivery = orderDao.GetDeliveryOption(selectedDeliveryId);
             order.Delivery = new Delivery(selectedDelivery.Id, selectedDelivery.Name, selectedDelivery.Cost);
