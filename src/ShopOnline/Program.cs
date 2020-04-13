@@ -10,12 +10,8 @@ namespace ShopOnline
     {
         static void Main(string[] args)
         {
-            var cartItem = new CartItemDaoDB();
-            List<CartItem> cartsItems = cartItem.GetCardItem();
-            foreach(var item in cartsItems)
-            {
-                Console.WriteLine(item.ToString());
-            }
+            var shopController=new MainController();
+            shopController.runMainController();
         }
     }
 }

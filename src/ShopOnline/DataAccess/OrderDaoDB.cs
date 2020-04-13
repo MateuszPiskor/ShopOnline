@@ -6,10 +6,8 @@ namespace ShopOnline.DataAccess
 {
     public class OrderDaoDB : IOrderDao
     {
-        DateTime Time = new DateTime();
-      
-       
         public DataBaseConnectionService DataBaseConnectionService { get; private set; }
+
         public OrderDaoDB()
             {
                 DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
@@ -32,7 +30,6 @@ namespace ShopOnline.DataAccess
                 float price = reader.GetFloat(2);
                 payment = new Payment(id, name, price);
             }
-           
             return payment;
         }
 
