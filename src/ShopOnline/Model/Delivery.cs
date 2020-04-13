@@ -6,15 +6,24 @@ namespace ShopOnline.Model
 {
     public class Delivery
     {
-        public object Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public float Cost { get; set; }
+        public double Cost { get; set; }
 
-        public Delivery(int id, string name, float cost)
+        public Delivery()
+        {
+        }
+
+        public Delivery(int id, string name, double cost)
         {
             Id = id;
             Name = name;
             Cost = cost;
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} - {Name} - price: {Cost} zł";
         }
     }
 }

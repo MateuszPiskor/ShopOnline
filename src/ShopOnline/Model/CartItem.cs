@@ -6,10 +6,10 @@ namespace ShopOnline.Model
         public int ID { get; set; }
         public int Product_ID { get; set; }
         public int Quantity { get; set; }
-        public int UnitPrice { get; set; }
-        public int Subtotal { get; set; }
+        public double UnitPrice { get; set; }
+        public double Subtotal { get; set; }
 
-        public CartItem(int id, int product_id, int quantity, int unitPrice, int subtotal)
+        public CartItem(int id, int product_id, int quantity, double unitPrice, double subtotal)
         {
             ID = id;
             Product_ID = product_id;
