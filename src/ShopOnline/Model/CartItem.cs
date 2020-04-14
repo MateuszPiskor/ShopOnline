@@ -9,18 +9,21 @@ namespace ShopOnline.Model
         public double UnitPrice { get; set; }
         public double Subtotal { get; set; }
 
-        public CartItem(int id, int product_id, int quantity, double unitPrice, double subtotal)
+        public string Title { get; set; }
+
+        public CartItem(string title,int id, int product_id, int quantity, double unitPrice, double subtotal)
         {
             ID = id;
             Product_ID = product_id;
             Quantity = quantity;
             UnitPrice = unitPrice;
             Subtotal = subtotal;
+            Title = title;
 
         }
         public override string ToString()
         {
-            return $"{ID} {Product_ID} {Quantity} {UnitPrice} {Subtotal}";
+            return $"{Title} item:{Quantity} price:{UnitPrice} subtotal:{Subtotal}";
         }
     }
 }

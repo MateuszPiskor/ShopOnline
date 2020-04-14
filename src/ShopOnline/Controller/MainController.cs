@@ -13,7 +13,7 @@ namespace ShopOnline.Controller
         }
         public void runMainController() {
             View.DisplayMenu(menu);
-            string mainMenuChoice=View.GetAnswer();
+            string mainMenuChoice=View.GetUserInput("Your Choice: ");
             switch (mainMenuChoice)
             {
                 case "1": 

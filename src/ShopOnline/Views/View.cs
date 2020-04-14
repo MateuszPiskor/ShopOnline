@@ -111,7 +111,7 @@ namespace ShopOnline.Views
 
         public string GetAnswer()
         {
-            Console.WriteLine("Choose option: ");
+            Console.WriteLine("Your choice: ");
             return Console.ReadLine();
         }
     }

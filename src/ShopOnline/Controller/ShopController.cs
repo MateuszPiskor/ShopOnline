@@ -23,17 +23,30 @@ namespace ShopOnline.Controller
         {
             List<Product> allProducts = GetAllProducts();
             PrintProdutcs(allProducts);
-            string userChoice = getUserChoice();
-            HandleUserChoice(allProducts, userChoice);
+            HandleUserChoice();
         }
 
-        private void HandleUserChoice(List<Product> allProducts, string userChoice)
+        private void HandleUserChoice()
         {
-
-            if (int.Parse(userChoice) > 0 && int.Parse(userChoice) < allProducts.Count)
+            Validation validation = new Validation();
+            bool correct = false;
+            string userChoice = "";
+            while (!correct)
             {
-                AddToBasket(userChoice,Cart.Id);
+                userChoice=View.GetUserInput("Legend: \nAdd to basket-- > press number of product\nGo to basket-- > press 'b'\nGo to checkout-- > press 'c'\nYour choice: ");
+                if (validation.isProductNumber(userChoice))
+                {
+                    AddToBasket(userChoice, Cart.Id);
+                    Cart = cartDaoDB.GetCurrentCart();
+                    View.PrintMessage("Item added");
+                }
+
+                if(userChoice=="b" || userChoice == "B")
+                {
+                    var cartController=new CartController(Cart);
+                }
             }
+            
         }
 
         public void AddToBasket(string userChoice,int cart_id)
@@ -41,11 +54,6 @@ namespace ShopOnline.Controller
             var cartItemDaoDB = new CartItemDaoDB();
             cartItemDaoDB.AddToBasket(int.Parse(userChoice),cart_id);
             cartDaoDB.UpdateTotalPrice();
-        }
-
-        private string getUserChoice()
-        {
-            return View.GetAnswer();
         }
 
         private List<Product> GetAllProducts()
