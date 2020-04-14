@@ -23,17 +23,28 @@ namespace ShopOnline.Controller
         {
             List<Product> allProducts = GetAllProducts();
             PrintProdutcs(allProducts);
-            string userChoice = getUserChoice();
-            HandleUserChoice(allProducts, userChoice);
+            HandleUserChoice();
         }
 
-        private void HandleUserChoice(List<Product> allProducts, string userChoice)
+        private void HandleUserChoice()
         {
-
-            if (int.Parse(userChoice) > 0 && int.Parse(userChoice) < allProducts.Count)
+            Validation validation = new Validation();
+            bool correct = false;
+            string userChoice = "";
+            while (!correct)
             {
-                AddToBasket(userChoice,Cart.Id);
+                userChoice=View.GetUserInput("What do you chosse? : ");
+                if (validation.isProductNumber(userChoice))
+                {
+                    AddToBasket(userChoice, Cart.Id);
+                }
+
+                else if(userChoice=="c" && userChoice == "C")
+                {
+                    var cartController=new CartController();
+                }
             }
+            
         }
 
         public void AddToBasket(string userChoice,int cart_id)

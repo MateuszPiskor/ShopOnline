@@ -29,12 +29,6 @@ namespace ShopOnline.Views
             Console.WriteLine();
         }
 
-        public string getAnswer()
-        {
-            Console.WriteLine("You chosse: ");
-            return Console.ReadLine();
-        }
-
         public void PrintProducts(List<Product> products)
         {
             foreach (Product product in products)
@@ -68,6 +62,15 @@ namespace ShopOnline.Views
             Console.Write(message);
             string output = Console.ReadLine();
             return output;
+        }
+
+        public void PrintCartItems(List<CartItem> cartItems)
+        {
+            foreach (CartItem cartItem in cartItems)
+            {
+                Console.WriteLine(cartItem.ToString());
+            }
+            Console.WriteLine();
         }
     }
 }
