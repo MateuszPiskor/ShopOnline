@@ -14,7 +14,7 @@ namespace ShopOnline
             var shopController=new MainController();
             shopController.runMainController();
             //List<Customer> cust = new List<Customer>();
-            ICustomerDao dao = new CustomerDaoDB();
+            //ICustomerDao dao = new CustomerDaoDB();
             //var temp = dao.GetCustomerById(2);
             //foreach (var ele in temp)
             //{
@@ -44,7 +44,7 @@ namespace ShopOnline
             //{
             //    Console.WriteLine(e);
             //}
-            dao.UpdateCustomerCity("Sopot", 10);
+            //dao.UpdateCustomerCity("Sopot", 10);
 
 
         }

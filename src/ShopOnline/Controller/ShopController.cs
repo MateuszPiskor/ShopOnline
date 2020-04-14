@@ -33,7 +33,7 @@ namespace ShopOnline.Controller
             string userChoice = "";
             while (!correct)
             {
-                userChoice=View.GetUserInput("What do you chosse? : ");
+                userChoice=View.GetUserInput("Your choice : ");
                 if (validation.isProductNumber(userChoice))
                 {
                     AddToBasket(userChoice, Cart.Id);
@@ -52,11 +52,6 @@ namespace ShopOnline.Controller
             var cartItemDaoDB = new CartItemDaoDB();
             cartItemDaoDB.AddToBasket(int.Parse(userChoice),cart_id);
             cartDaoDB.UpdateTotalPrice();
-        }
-
-        private string getUserChoice()
-        {
-            return View.getAnswer();
         }
 
         private List<Product> GetAllProducts()
