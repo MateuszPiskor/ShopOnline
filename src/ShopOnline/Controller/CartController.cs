@@ -11,16 +11,30 @@ namespace ShopOnline.Controller
         View view = new View();
         CartDaoDB cartDaoDB = new CartDaoDB();
         CartItemDaoDB cartItem=new CartItemDaoDB();
-        int Cart_id;
-        public CartController()
+        Cart Cart { get; set; }
+        public string userChoice { get; set; }
+
+        public CartController(Cart cart)
         {
-            List<CartItem> cartItems= cartItem.GetCardItem();
-            view.PrintCartItems(cartItems);
-        }
-        public CartController(int cart_id)
-        {
-            Cart_id = cart_id;
+            Cart = cart;
+            runCartController();
         }
 
+        private void runCartController()
+        {
+            List<CartItem> cartItems = cartItem.GetCardItem();
+            view.PrintCartItems(cartItems);
+            view.PrintMessage($"Total : {Cart.TotalPrice}");
+            //userChoice=view.GetUserInput($"Legend: \nTo edit basket-- > press 'e'\nContinue shopping-- > press 's'\nGo to checkout-- > press 'c'");
+            //handleUserChoice(userChoice);
+        }
+
+        private void handleUserChoice(string userChoice)
+        {
+            if(userChoice=="s")
+            {
+                
+            }
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace ShopOnline
     {
         static void Main(string[] args)
         {
-            var shopController=new MainController();
-            shopController.runMainController();
+            var mainController=new MainController();
+            mainController.runMainController();
             //List<Customer> cust = new List<Customer>();
             //ICustomerDao dao = new CustomerDaoDB();
             //var temp = dao.GetCustomerById(2);

@@ -33,15 +33,17 @@ namespace ShopOnline.Controller
             string userChoice = "";
             while (!correct)
             {
-                userChoice=View.GetUserInput("Your choice : ");
+                userChoice=View.GetUserInput("Legend: \nAdd to basket-- > press number of product\nGo to basket-- > press 'b'\nGo to checkout-- > press 'c'\nYour choice: ");
                 if (validation.isProductNumber(userChoice))
                 {
                     AddToBasket(userChoice, Cart.Id);
+                    Cart = cartDaoDB.GetCurrentCart();
+                    View.PrintMessage("Item added");
                 }
 
-                else if(userChoice=="c" && userChoice == "C")
+                if(userChoice=="b" || userChoice == "B")
                 {
-                    var cartController=new CartController();
+                    var cartController=new CartController(Cart);
                 }
             }
             

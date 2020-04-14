@@ -12,6 +12,7 @@ namespace ShopOnline.DataAccess
         public ProductDaoDB()
         {
             DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
+            //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
         }
 
 
@@ -206,7 +207,7 @@ namespace ShopOnline.DataAccess
             product.Id = rdr.GetInt32(0);
             product.MediaType = mediaType;
             product.Movie = movie;
-            product.Price = rdr.GetInt32(11);
+            product.Price = rdr.GetDouble(11);
             return product;
         }
 
