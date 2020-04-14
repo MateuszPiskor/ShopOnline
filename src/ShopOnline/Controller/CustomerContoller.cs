@@ -109,6 +109,7 @@ namespace ShopOnline.Controller
 
 
             }
+            
 
 
 
@@ -126,9 +127,10 @@ namespace ShopOnline.Controller
             string phone = view.GetUserInput("Phone number: ");
             string password = view.GetUserInput("Password: ");
 
-            
 
+            return -1;
         }
+        
 
         private string ToCapitalFirstLetter(string text)
         {
