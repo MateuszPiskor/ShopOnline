@@ -18,14 +18,11 @@ namespace ShopOnline.Controller
             {"1", "Add" },
             {"2", "Remove" },
             {"3", "Back To Shoping" },
-            {"4","Go to order summary" }
+            {"4","Go to checkout" }
 
         };
 
-        private bool isCartControllerActive = true;
         public string userChoice { get; set; }
-
-
 
         public CartController(Cart cart)
         {
@@ -34,36 +31,51 @@ namespace ShopOnline.Controller
 
         public void runCartController()
         {
-            HandleUserChoice();
-        }
-
-        private void HandleUserChoice()
-        {
+            bool isCartControllerActive = true;
             while (isCartControllerActive)
             {
                 List<CartItem> cartItems = cartItemDaoDB.GetCardItem();
-                view.PrintBasket(cartItems,Cart);
+                view.PrintBasket(cartItems, Cart);
                 view.PrintDictionary(optionsInBasket);
                 userChoice = view.GetUserInput("Your choice: ");
-                
+
                 switch (userChoice)
                 {
                     case "1":
 
-                        EditBasket(cartItems,userChoice);
+                        EditBasket(cartItems, userChoice);
                         break;
+                    
                     case "2":
                         EditBasket(cartItems, userChoice);
                         break;
 
                     case "3":
                         isCartControllerActive = false;
+                        var productController=new ProductController();
+                        productController.RunProductController();
                         break;
+                    
                     case "4":
+                        if (Cart.TotalPrice > 0)
+                        {
+                            var customerController = new CustomerController(Cart);
+                            customerController.RunMenu();
+                        }
+                        else
+                        {
+                            view.PrintMessage("Your cart is empty. Buy something:)");
+                        }
+                        break;
+
+                    default:
+                        view.PrintMessage("Choose one of the available options");
                         break;
                 }
             }
         }
+
+        
 
         private void EditBasket(List<CartItem> cartItems,string basketOperation)
         {

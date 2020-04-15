@@ -8,7 +8,7 @@ namespace ShopOnline.Model
         public string LastName { get; }
         public CustomerDetails Details { get; set; }
         public bool Registered;
-        private string Pass;
+        internal string Pass;
 
 
         public Customer(int id, string firstName, string lastName, CustomerDetails details,

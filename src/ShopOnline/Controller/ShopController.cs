@@ -57,10 +57,23 @@ namespace ShopOnline.Controller
                         break;
 
                     case "3":
+                        if (Cart.TotalPrice > 0)
+                        {
+                            var customerController = new CustomerController(Cart);
+                            customerController.RunMenu();
+                        }
+                        else
+                        {
+                            view.PrintMessage("Your cart is empty. Buy something:)");
+                        }
                         break;
 
                     case "4":
                         isShopControllerActive = false;
+                        break;
+
+                    default:
+                        view.PrintMessage("Choose one of the available options");
                         break;
                 }
                 
