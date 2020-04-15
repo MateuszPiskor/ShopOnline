@@ -52,6 +52,7 @@ namespace ShopOnline.Controller
 
                     case "3":
                         isCartControllerActive = false;
+                        
                         break;
                     
                     case "4":
