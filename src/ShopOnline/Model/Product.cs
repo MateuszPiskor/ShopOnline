@@ -6,9 +6,9 @@ namespace ShopOnline.Model
         public int Id { get; set; }
         public MediaType MediaType { get; set; }
         public Movie Movie { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
 
-        public Product(int id, MediaType mediaType, Movie movie, int price)
+        public Product(int id, MediaType mediaType, Movie movie, double price)
         {
             Id = id;
             MediaType = mediaType;

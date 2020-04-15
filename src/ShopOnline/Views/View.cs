@@ -44,6 +44,15 @@ namespace ShopOnline.Views
             Console.WriteLine();
         }
 
+        public void PrintCartItems(List<CartItem> cartItems)
+        {
+            foreach (CartItem cartItem in cartItems)
+            {
+                Console.WriteLine(cartItem.ToString());
+            }
+            Console.WriteLine();
+        }
+
         public void PrintDictionary(Dictionary<int, string> dictionary)
         {
             foreach (KeyValuePair<int, string> element in dictionary)
@@ -58,6 +67,52 @@ namespace ShopOnline.Views
             Console.Write(message);
             string output = Console.ReadLine();
             return output;
+        }
+
+        public void PrintPayments(List<Payment> payments)
+        {
+            foreach (Payment payment in payments)
+            {
+                Console.WriteLine(payment.ToString());
+            }
+            Console.WriteLine();
+        }
+
+        public void PrintDeliveries(List<Delivery> deliveries)
+        {
+            foreach (Delivery delivery in deliveries)
+            {
+                Console.WriteLine(delivery.ToString());
+            }
+            Console.WriteLine();
+        }
+
+        public void PrintOrderConfirmation(Order order)
+        {
+            Console.WriteLine($"Order number {order.Id}:");
+            Console.WriteLine($"Date: {order.Date}");
+            Console.WriteLine();
+            Console.WriteLine("--------------------------");
+            Console.WriteLine();
+            // PrintCartItems(order.Cart); - to be done
+            Console.WriteLine();
+            Console.WriteLine("--------------------------");
+            Console.WriteLine();
+            Console.WriteLine($"Total price: {order.TotalPrice} zł");
+        }
+
+        public void DisplayMenu(string[] rows)
+        {
+            foreach (var row in rows)
+            {
+                Console.WriteLine(row);
+            }
+        }
+
+        public string GetAnswer()
+        {
+            Console.WriteLine("Choose option: ");
+            return Console.ReadLine();
         }
     }
 }
