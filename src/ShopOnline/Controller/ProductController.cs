@@ -9,6 +9,7 @@ namespace ShopOnline.Controller
     public class ProductController
     {
         IProductDao productDao = new ProductDaoDB();
+        ShopController shopcontroller = new ShopController();
         bool isProductControllerActive = true;
         Dictionary<int, string> requests = new Dictionary<int, string>()
         {
@@ -35,7 +36,7 @@ namespace ShopOnline.Controller
             {
                 view.PrintDictionary(requests);
                 int selectedOption = Int32.Parse(view.GetUserInput("Select option: "));
-                var shopcontroller = new ShopController();
+                
                 switch(selectedOption)
                 {
                     case 0:

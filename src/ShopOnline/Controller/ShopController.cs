@@ -13,7 +13,7 @@ namespace ShopOnline.Controller
         Validation validation = new Validation();
         public Cart Cart { get; set; }
 
-        bool isShopControllerActive = true;
+        
 
         Dictionary<string, string> request = new Dictionary<string, string>()
         {
@@ -24,10 +24,14 @@ namespace ShopOnline.Controller
             {"4","Go to filters" },
 
         };
+        public ShopController()
+        {
+            cartDaoDB.CreateEmptyCart();
+        }
 
         public void runShopController()
         {
-            cartDaoDB.CreateEmptyCart();
+            bool isShopControllerActive = true;
 
             while (isShopControllerActive)
             {
