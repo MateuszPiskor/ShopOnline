@@ -44,18 +44,28 @@ namespace ShopOnline.Views
             Console.WriteLine();
         }
 
-        public void PrintCartItems(List<CartItem> cartItems)
+        public void PrintBasket(List<CartItem> cartItems,Cart cart)
         {
+            Console.WriteLine("\nYour Basket: " );
             foreach (CartItem cartItem in cartItems)
             {
                 Console.WriteLine(cartItem.ToString());
             }
+            Console.WriteLine($"Total : {cart.TotalPrice}");
             Console.WriteLine();
         }
 
         public void PrintDictionary(Dictionary<int, string> dictionary)
         {
             foreach (KeyValuePair<int, string> element in dictionary)
+            {
+                Console.WriteLine($"{element.Key}) {element.Value}");
+            }
+            Console.WriteLine();
+        }
+        public void PrintDictionary(Dictionary<string, string> dictionary)
+        {
+            foreach (KeyValuePair<string, string> element in dictionary)
             {
                 Console.WriteLine($"{element.Key}) {element.Value}");
             }
@@ -111,7 +121,7 @@ namespace ShopOnline.Views
 
         public string GetAnswer()
         {
-            Console.WriteLine("Choose option: ");
+            Console.WriteLine("Your choice: ");
             return Console.ReadLine();
         }
     }

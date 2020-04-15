@@ -10,9 +10,9 @@ namespace ShopOnline.Controller
     public class CustomerController
     {
         ICustomerDao customerDao;
+        Cart cart;
         private bool isLoggedIn;
         private int userId;
-        
         public bool IsLoggedIn //read only!
         {
             get { return isLoggedIn;  }
@@ -43,11 +43,12 @@ namespace ShopOnline.Controller
         View view = new View();
 
         //Composition
-        public CustomerController()
+        public CustomerController(Cart cart)
         {
             customerDao = new CustomerDaoDB();
             isLoggedIn = false;
             userId = -1;
+            this.cart = cart;
         }
 
         //Agregation
@@ -85,6 +86,8 @@ namespace ShopOnline.Controller
                             break;
                         case 4:
                             RegisterNewCustomer(false);
+                            var orderController = new OrderController(cart);
+                            orderController.RunOrderController();
                             break;
 
                     }
@@ -215,7 +218,6 @@ namespace ShopOnline.Controller
             try
             {
                 Customer newUser = customerDao.GetCustomerByEmail(email);
-                userId = newUser.Id;
                 return newUser.Id;
 
             } catch(IdNotFoundException)
@@ -275,17 +277,6 @@ namespace ShopOnline.Controller
 
             } while(selectedOption != 0);
 
-        }
-
-        public Customer GetCustomer(int id)
-        {
-            return customerDao.GetCustomerById(id);
-            
-        }
-
-        public Customer GetCustomer()
-        {
-            return GetCustomer(userId);
         }
 
 

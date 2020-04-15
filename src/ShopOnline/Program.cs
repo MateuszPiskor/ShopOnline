@@ -5,13 +5,14 @@ using ShopOnline.Model;
 using System.Collections.Generic;
 using ShopOnline.Controller;
 
-
 namespace ShopOnline
 {
     class Program
     {
         static void Main(string[] args)
         {
+            var mainController=new MainController();
+            mainController.runMainController();
             //List<Customer> cust = new List<Customer>();
             ICustomerDao dao = new CustomerDaoDB();
             //var temp = dao.GetCustomerById(2);
@@ -44,13 +45,9 @@ namespace ShopOnline
             //    Console.WriteLine(e);
             //}
             //dao.UpdateCustomerCity("Sopot", 10);
-            CustomerController contr = new CustomerController();
+            //CustomerController contr = new CustomerController();
 
-            contr.RunMenu();
-
-
-
-
+           //contr.RunMenu();
         }
     }
 }

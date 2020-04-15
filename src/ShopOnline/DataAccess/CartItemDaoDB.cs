@@ -11,7 +11,7 @@ namespace ShopOnline.DataAccess
 
         public CartItemDaoDB()
         {
-            DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
+            DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres","1234","ShopOnline");
             //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
         }
 
@@ -59,7 +59,13 @@ namespace ShopOnline.DataAccess
         {
             List<CartItem> CartItems = new List<CartItem>();
             using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string command = $@"SELECT * FROM cart_items";
+            string command = $@"SELECT m.title,c.id,c.product_id,c.quantity,c.unit_price,c.subtotal 
+                                    FROM cart_items c
+                                    INNER JOIN products p
+                                    ON c.product_id=p.id
+                                     INNER JOIN movies m
+                                     ON m.id=p.movie_id
+                                     WHERE c.cart_id=(SELECT MAX(id) from carts)";
 
             con.Open();
 
@@ -68,7 +74,7 @@ namespace ShopOnline.DataAccess
 
             while (reader.Read())
             {
-                CartItems.Add(new CartItem(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4)));
+                CartItems.Add(new CartItem(reader.GetString(0),reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5)));
             }
 
             return CartItems;

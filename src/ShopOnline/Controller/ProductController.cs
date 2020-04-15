@@ -9,6 +9,7 @@ namespace ShopOnline.Controller
     public class ProductController
     {
         IProductDao productDao = new ProductDaoDB();
+        ShopController shopcontroller = new ShopController();
         bool isProductControllerActive = true;
         Dictionary<int, string> requests = new Dictionary<int, string>()
         {
@@ -35,6 +36,7 @@ namespace ShopOnline.Controller
             {
                 view.PrintDictionary(requests);
                 int selectedOption = Int32.Parse(view.GetUserInput("Select option: "));
+                
                 switch(selectedOption)
                 {
                     case 0:
@@ -42,24 +44,31 @@ namespace ShopOnline.Controller
                         break;
                     case 1:
                         view.PrintMovies(productDao.GetAllMovies());
+                        shopcontroller.runShopController();
                         break;
                     case 2:
                         view.PrintProducts(productDao.GetAllProducts());
+                        shopcontroller.runShopController();
                         break;
                     case 3:
                         GetProductsByInsertedTitle();
+                        shopcontroller.runShopController();
                         break;
                     case 4:
                         GetProductsByMediaType();
+                        shopcontroller.runShopController();
                         break;
                     case 5:
                         GetProductsByGenre();
+                        shopcontroller.runShopController();
                         break;
                     case 6:
                         GetProductsByDirector();
+                        shopcontroller.runShopController();
                         break;
                     case 7:
                         GetProductsByRating();
+                        shopcontroller.runShopController();
                         break;
                     default:
                         view.PrintMessage("Choose one of the available options");
