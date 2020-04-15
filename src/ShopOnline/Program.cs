@@ -45,9 +45,9 @@ namespace ShopOnline
             //    Console.WriteLine(e);
             //}
             //dao.UpdateCustomerCity("Sopot", 10);
-            CustomerController contr = new CustomerController();
+            //CustomerController contr = new CustomerController();
 
-            contr.RunMenu();
+           //contr.RunMenu();
         }
     }
 }

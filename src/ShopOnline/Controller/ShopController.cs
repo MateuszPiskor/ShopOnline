@@ -8,45 +8,76 @@ namespace ShopOnline.Controller
 {
     public class ShopController
     {
-        public View View { get; private set; }
+        public View view = new View();
         public CartDaoDB cartDaoDB=new CartDaoDB();
+        Validation validation = new Validation();
         public Cart Cart { get; set; }
 
-        public ShopController(View view)
+        
+
+        Dictionary<string, string> request = new Dictionary<string, string>()
         {
-            View = view;
+           
+            {"1", "Add to basket" },
+            {"2", "Go to basket" },
+            {"3", "Go to checkout" },
+            {"4","Go to filters" },
+
+        };
+        public ShopController()
+        {
             cartDaoDB.CreateEmptyCart();
-            Cart=cartDaoDB.GetCurrentCart();
         }
 
         public void runShopController()
         {
-            List<Product> allProducts = GetAllProducts();
-            PrintProdutcs(allProducts);
-            HandleUserChoice();
-        }
+            bool isShopControllerActive = true;
 
-        private void HandleUserChoice()
-        {
-            Validation validation = new Validation();
-            bool correct = false;
-            string userChoice = "";
-            while (!correct)
+            while (isShopControllerActive)
             {
-                userChoice=View.GetUserInput("Legend: \nAdd to basket-- > press number of product\nGo to basket-- > press 'b'\nGo to checkout-- > press 'c'\nYour choice: ");
-                if (validation.isProductNumber(userChoice))
+                Cart = cartDaoDB.GetCurrentCart();
+                view.PrintDictionary(request);
+                string userChoice = view.GetUserInput("Your Choice: ");
+                switch (userChoice)
                 {
-                    AddToBasket(userChoice, Cart.Id);
-                    Cart = cartDaoDB.GetCurrentCart();
-                    View.PrintMessage("Item added");
-                }
+                    
+                    case "1":
+                        string product_id = view.GetUserInput("Type product id: ");
+                        if (validation.isProductNumber(product_id))
+                        {
+                            AddToBasket(product_id, Cart.Id);
+                            Cart = cartDaoDB.GetCurrentCart();
+                            view.PrintMessage("Item added");
+                        }
+                        break;
 
-                if(userChoice=="b" || userChoice == "B")
-                {
-                    var cartController=new CartController(Cart);
+                    case "2":
+                            var cartController = new CartController(Cart);
+                            cartController.runCartController();
+                        break;
+
+                    case "3":
+                        if (Cart.TotalPrice > 0)
+                        {
+                            var customerController = new CustomerController(Cart);
+                            customerController.RunMenu();
+                        }
+                        else
+                        {
+                            view.PrintMessage("Your cart is empty. Buy something:)");
+                        }
+                        break;
+
+                    case "4":
+                        isShopControllerActive = false;
+                        break;
+
+                    default:
+                        view.PrintMessage("Choose one of the available options");
+                        break;
                 }
+                
             }
-            
         }
 
         public void AddToBasket(string userChoice,int cart_id)
@@ -65,7 +96,7 @@ namespace ShopOnline.Controller
 
         private void PrintProdutcs(List<Product> allProducts)
         {
-            View.PrintProducts(allProducts);
+            view.PrintProducts(allProducts);
         }
 
     }

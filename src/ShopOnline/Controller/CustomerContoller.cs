@@ -10,6 +10,7 @@ namespace ShopOnline.Controller
     public class CustomerController
     {
         ICustomerDao customerDao;
+        Cart cart;
         private bool isLoggedIn;
         private int userId;
         public bool IsLoggedIn //read only!
@@ -42,11 +43,12 @@ namespace ShopOnline.Controller
         View view = new View();
 
         //Composition
-        public CustomerController()
+        public CustomerController(Cart cart)
         {
             customerDao = new CustomerDaoDB();
             isLoggedIn = false;
             userId = -1;
+            this.cart = cart;
         }
 
         //Agregation
@@ -84,6 +86,8 @@ namespace ShopOnline.Controller
                             break;
                         case 4:
                             RegisterNewCustomer(false);
+                            var orderController = new OrderController(cart);
+                            orderController.RunOrderController();
                             break;
 
                     }

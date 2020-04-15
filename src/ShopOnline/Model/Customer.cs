@@ -8,7 +8,7 @@ namespace ShopOnline.Model
         public string LastName { get; }
         public CustomerDetails Details { get; set; }
         public bool Registered;
-        public string Pass { get; set; }
+        internal string Pass;
 
 
         public Customer(int id, string firstName, string lastName, CustomerDetails details,
@@ -29,9 +29,6 @@ namespace ShopOnline.Model
             return $"{Id} {FirstName} {LastName} {Details} {Registered} {Pass}";
         }
         
-
-
-
 
     }
 }

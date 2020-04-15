@@ -29,10 +29,14 @@ namespace ShopOnline.DataAccess
         {
             using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
             string command = @"UPDATE carts
-                            SET total_price = (SELECT SUM(subtotal) FROM cart_items ci
-                            INNER JOIN carts c ON ci.cart_id = c.id
-                                WHERE ci.cart_id = (SELECT MAX(id) from carts))
-	                        WHERE id = (SELECT MAX(id) from carts)";
+                                    SET total_price = (SELECT SUM(subtotal)FROM cart_items
+                                    WHERE cart_items.cart_id = (SELECT MAX(id) from carts))
+  					           WHERE id = (SELECT MAX(id) from carts)";
+            //string command = @"UPDATE carts
+            //                SET total_price = (SELECT SUM(subtotal) FROM cart_items ci
+            //                INNER JOIN carts c ON ci.cart_id = c.id
+            //                    WHERE ci.cart_id = (SELECT MAX(id) from carts))
+            //             WHERE id = (SELECT MAX(id) from carts)";
 
             con.Open();
             using var preparedCommand = new NpgsqlCommand(command, con);

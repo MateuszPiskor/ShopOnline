@@ -23,7 +23,7 @@ namespace ShopOnline.Model
         }
         public override string ToString()
         {
-            return $"{Title} item:{Quantity} price:{UnitPrice} subtotal:{Subtotal}";
+            return $"{Product_ID}.{Title} item:{Quantity} price:{UnitPrice} subtotal:{Subtotal}";
         }
     }
 }

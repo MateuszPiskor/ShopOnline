@@ -59,13 +59,13 @@ namespace ShopOnline.DataAccess
         {
             List<CartItem> CartItems = new List<CartItem>();
             using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string command = $@" SELECT m.title,c.id,c.product_id,c.quantity,c.unit_price,c.subtotal 
-                                    FROM cart_items c						
+            string command = $@"SELECT m.title,c.id,c.product_id,c.quantity,c.unit_price,c.subtotal 
+                                    FROM cart_items c
                                     INNER JOIN products p
                                     ON c.product_id=p.id
-     	                            INNER JOIN movies m
-     	                            ON m.id=p.id
-									WHERE c.cart_id=(SELECT MAX(id) from carts)";
+                                     INNER JOIN movies m
+                                     ON m.id=p.movie_id
+                                     WHERE c.cart_id=(SELECT MAX(id) from carts)";
 
             con.Open();
 
