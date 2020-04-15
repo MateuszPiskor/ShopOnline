@@ -17,11 +17,11 @@ namespace ShopOnline.Controller
 
         Dictionary<string, string> request = new Dictionary<string, string>()
         {
-            {"1","Filter products" },
-            {"2", "Add to basket" },
-            {"3", "Go to basket" },
-            {"4", "Go to checkout" },
-            {"5","Go main menu" },
+           
+            {"1", "Add to basket" },
+            {"2", "Go to basket" },
+            {"3", "Go to checkout" },
+            {"4","Go to filters" },
 
         };
 
@@ -32,42 +32,36 @@ namespace ShopOnline.Controller
             while (isShopControllerActive)
             {
                 Cart = cartDaoDB.GetCurrentCart();
-                List<Product> allProducts = GetAllProducts();
-                PrintProdutcs(allProducts);
                 view.PrintDictionary(request);
                 string userChoice = view.GetUserInput("Your Choice: ");
                 switch (userChoice)
                 {
+                    
                     case "1":
-                        var productController=new ProductController();
-                        productController.RunProductController();
-                        break;
-                    case "2":
                         string product_id = view.GetUserInput("Type product id: ");
                         if (validation.isProductNumber(product_id))
                         {
-                            AddToBasket(userChoice, Cart.Id);
+                            AddToBasket(product_id, Cart.Id);
                             Cart = cartDaoDB.GetCurrentCart();
                             view.PrintMessage("Item added");
                         }
                         break;
 
-                    case "3":
+                    case "2":
                             var cartController = new CartController(Cart);
                             cartController.runCartController();
                         break;
 
-                    case "4":
+                    case "3":
                         break;
 
-                    case "5":
+                    case "4":
                         isShopControllerActive = false;
                         break;
                 }
                 
             }
         }
-
 
         public void AddToBasket(string userChoice,int cart_id)
         {

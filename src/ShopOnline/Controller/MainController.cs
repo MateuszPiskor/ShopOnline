@@ -1,30 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using ShopOnline.Views;
 
 namespace ShopOnline.Controller
 {
     public class MainController
-    {
-        public string[] menu = { "1. Shop", "2. Your account","3. Contact","4. About us" };
-        public View View { get; set; }
+    { 
+        View View=new View();
+        Dictionary<string,string> request =new Dictionary<string, string>()
+        {
+            { "1", "Shop" }, 
+            {"2", "Your account" },
+            {"3", "Contact" },
+            {"4","About us" }
+        }; 
+ 
+        
         public MainController()
         {
-            View=new View(); 
+            
         }
         public void runMainController() {
             bool isMainControllerActive = true;
 
             while (isMainControllerActive)
             {
-                View.DisplayMenu(menu);
+                View.PrintDictionary(request);
                 string mainMenuChoice=View.GetUserInput("Your Choice: ");
 
                 switch (mainMenuChoice)
                 {
                     case "1": 
                         {
-                            var shopController = new ShopController();
-                            shopController.runShopController();
+                            var productController = new ProductController();
+                            productController.RunProductController();
                             break;
                         }
                 }
