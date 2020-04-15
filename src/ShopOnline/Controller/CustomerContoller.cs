@@ -12,6 +12,7 @@ namespace ShopOnline.Controller
         ICustomerDao customerDao;
         private bool isLoggedIn;
         private int userId;
+        
         public bool IsLoggedIn //read only!
         {
             get { return isLoggedIn;  }
@@ -214,6 +215,7 @@ namespace ShopOnline.Controller
             try
             {
                 Customer newUser = customerDao.GetCustomerByEmail(email);
+                userId = newUser.Id;
                 return newUser.Id;
 
             } catch(IdNotFoundException)
@@ -273,6 +275,17 @@ namespace ShopOnline.Controller
 
             } while(selectedOption != 0);
 
+        }
+
+        public Customer GetCustomer(int id)
+        {
+            return customerDao.GetCustomerById(id);
+            
+        }
+
+        public Customer GetCustomer()
+        {
+            return GetCustomer(userId);
         }
 
 
