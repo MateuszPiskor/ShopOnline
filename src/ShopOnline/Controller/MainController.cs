@@ -12,16 +12,22 @@ namespace ShopOnline.Controller
             View=new View(); 
         }
         public void runMainController() {
-            View.DisplayMenu(menu);
-            string mainMenuChoice=View.GetUserInput("Your Choice: ");
-            switch (mainMenuChoice)
+            bool isMainControllerActive = true;
+
+            while (isMainControllerActive)
             {
-                case "1": 
-                    {
-                        var shopController = new ShopController(View);
-                        shopController.runShopController();
-                        break;
-                    }
+                View.DisplayMenu(menu);
+                string mainMenuChoice=View.GetUserInput("Your Choice: ");
+
+                switch (mainMenuChoice)
+                {
+                    case "1": 
+                        {
+                            var shopController = new ShopController();
+                            shopController.runShopController();
+                            break;
+                        }
+                }
             }
         }
 
