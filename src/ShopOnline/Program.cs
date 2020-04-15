@@ -3,6 +3,7 @@ using ShopOnline.DataAccess;
 using ShopOnline.Views;
 using ShopOnline.Model;
 using System.Collections.Generic;
+using ShopOnline.Controller;
 
 
 namespace ShopOnline
@@ -42,7 +43,12 @@ namespace ShopOnline
             //{
             //    Console.WriteLine(e);
             //}
-            dao.UpdateCustomerCity("Sopot", 10);
+            //dao.UpdateCustomerCity("Sopot", 10);
+            CustomerController contr = new CustomerController();
+
+            contr.RunMenu();
+
+
 
 
         }

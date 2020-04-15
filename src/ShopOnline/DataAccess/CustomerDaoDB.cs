@@ -168,7 +168,7 @@ namespace ShopOnline.DataAccess
         {
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
             connectionObj.Open();
-            var sql = $"UPDATE customers SET WHERE id = {id}";
+            var sql = $"UPDATE customers SET street='{newStreet}' WHERE id = {id}";
             using var cmd = new NpgsqlCommand(sql, connectionObj);
 
       
