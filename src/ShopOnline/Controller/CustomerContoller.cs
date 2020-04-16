@@ -179,7 +179,7 @@ namespace ShopOnline.Controller
                     try
                     {
                         var user = customerDao.GetCustomerByEmail(email);
-                        string decision = view.GetUserInput("Your email exists in database. " +
+                        string decision = view.GetUserInput("Your email exist in database. " +
                                                             "Press 'q' to exit or 'Enter' to try again.").ToLower();
                         if(decision.Equals("q"))
                         {
