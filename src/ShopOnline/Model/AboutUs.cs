@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace options
+namespace ShopOnline.Model  
 {
     public class AboutUs
     {
-        public List<string> ContactOptions {get; set;}
+        private List<string> ContactOptions; 
+        public List<string> contactOptions { get => ContactOptions; }
         public AboutUs()
-        {
-            ContactOptions = new List<string>();
+        {   
             LoadContactOptionsToList();
         }
-        public string ShowAboutUsDetails(string DetailFromXml)
+        public void ShowAboutUsDetails(string DetailFromXml)
         {
             using (XmlReader reader = XmlReader.Create("DataAccess/AboutUs.xml"))
             {
                 reader.ReadToFollowing(DetailFromXml);
-                return reader.ReadElementContentAsString();
+                Console.WriteLine(reader.ReadElementContentAsString());
             }
         }
-        private void LoadContactOptionsToList()
+        public void LoadContactOptionsToList()
         {
             using (XmlReader reader = XmlReader.Create("DataAccess/AboutUs.xml"))
             {
+                ContactOptions = new List<string>();
                 reader.ReadToFollowing("ContactOptions");
                 while (reader.Read())
                 {
@@ -37,6 +38,13 @@ namespace options
                 }
             }
 
+        }
+        protected void ShowContactOptions()
+        {
+            for (int i=0; i < contactOptions.Count; i++)
+            {
+                Console.WriteLine($"({i+1}) --> {contactOptions[i]}");
+            }
         }
 
     }

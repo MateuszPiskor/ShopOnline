@@ -129,8 +129,8 @@ namespace ShopOnline.Controller
                         userId = user.Id;
 
                         view.PrintMessage("Login successful.");
-                        string decision = view.GetUserInput("Do you wont to update Your data? Press /'y/' " +
-                                                                "or /'yes/' to enter Your account").ToLower();
+                        string decision = view.GetUserInput("Do you wont to update Your data? Press 'y' " +
+                                                            "or 'yes' to enter Your account").ToLower();
                         if (decision.Equals("y") || decision.Equals("yes"))
                             UpdateCustomerDetails();
 
@@ -180,7 +180,8 @@ namespace ShopOnline.Controller
                     try
                     {
                         var user = customerDao.GetCustomerByEmail(email);
-                        string decision = view.GetUserInput("Your email exist in database. Press 'q' to exit or try again. ").ToLower();
+                        string decision = view.GetUserInput("Your email exist in database. " +
+                                                            "Press 'q' to exit or 'Enter' to try again.").ToLower();
                         if(decision.Equals("q"))
                         {
                             return -1;
@@ -218,6 +219,7 @@ namespace ShopOnline.Controller
             try
             {
                 Customer newUser = customerDao.GetCustomerByEmail(email);
+                userId = newUser.Id;
                 return newUser.Id;
 
             } catch(IdNotFoundException)
