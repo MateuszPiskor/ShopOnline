@@ -21,12 +21,16 @@ namespace ShopOnline.Controller
 
         public void RunOrderController()
         {
-            // view.PrintCart();
-            SetPaymentMethod();
-            SetDeliveryOption();
-            SetTotalPrice();
-            SetCustomerDetails();
-            PlaceOrder();
+            while (IsActive)
+            {
+                // view.PrintCart();
+                SetPaymentMethod();
+                SetDeliveryOption();
+                SetTotalPrice();
+                SetCustomerDetails();
+                PlaceOrder();
+            }
+
         }
 
         private void SetPaymentMethod()
@@ -53,13 +57,13 @@ namespace ShopOnline.Controller
             {
                 orderDao.CreateOrder(order);
                 view.PrintOrderConfirmation(order);
-                ProductController productController = new ProductController();
-                productController.RunProductController();
+                view.PrintMessage("Thank you for your order.");
             }
             else
             {
                 view.PrintMessage("Order not confirmed.");
             }
+            IsActive = false;
         }
 
         private void SetCustomerDetails()
