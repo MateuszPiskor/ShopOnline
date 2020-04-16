@@ -58,8 +58,8 @@ namespace ShopOnline.Controller
                     case "4":
                         if (Cart.TotalPrice > 0)
                         {
-                            var customerController = new CustomerController(Cart);
-                            customerController.RunMenu();
+                            var orderController = new OrderController(Cart);
+                            orderController.RunOrderController();
                         }
                         else
                         {

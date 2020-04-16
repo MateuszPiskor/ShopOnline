@@ -54,7 +54,7 @@ namespace ShopOnline.Controller
             string userInput = view.GetUserInput("Press 'y' to confirm placing the order: ");
             if (userInput == "y")
             {
-                // Set Customer details
+                SetCustomerDetails();
                 orderDao.CreateOrder(order);
                 view.PrintOrderConfirmation(order);
             }
@@ -62,6 +62,13 @@ namespace ShopOnline.Controller
             {
                 view.PrintMessage("Order not confirmed.");
             }
+        }
+
+        private void SetCustomerDetails()
+        {
+            CustomerController customerController = new CustomerController(new CustomerDaoDB());
+            customerController.RunMenu();
+            order.Customer = customerController.GetCustomer();
         }
     }
 }

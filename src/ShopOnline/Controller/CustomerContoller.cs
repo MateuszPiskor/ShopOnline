@@ -300,9 +300,18 @@ namespace ShopOnline.Controller
                 return false;
             }
 
+            
+        }
+        public Customer GetCustomer(int id)
+        {
+            return customerDao.GetCustomerById(id);
 
         }
 
+        public Customer GetCustomer()
+        {
+            return GetCustomer(userId);
+        }
 
     }
 }
