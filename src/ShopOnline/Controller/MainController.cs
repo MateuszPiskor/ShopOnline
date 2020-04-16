@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ShopOnline.Views;
+using ShopOnline.Model;
 
 namespace ShopOnline.Controller
 {
@@ -34,6 +35,16 @@ namespace ShopOnline.Controller
                         {
                             var productController = new ProductController();
                             productController.RunProductController();
+                            break;
+                        }
+                    case "3":
+                        {
+                            var contactController = new ContactController();
+                            break;
+                        }
+                    case "4":
+                        {
+                            new ContactController().ShowAboutUsDetails("AboutUs");
                             break;
                         }
                 }
