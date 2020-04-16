@@ -9,7 +9,7 @@ namespace ShopOnline.Controller
     public class ProductController
     {
         IProductDao productDao = new ProductDaoDB();
-        ShopController shopcontroller = new ShopController();
+        ShopController shopController { get; set; }
         bool isProductControllerActive = true;
         Dictionary<int, string> requests = new Dictionary<int, string>()
         {
@@ -44,31 +44,31 @@ namespace ShopOnline.Controller
                         break;
                     case 1:
                         view.PrintMovies(productDao.GetAllMovies());
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 2:
                         view.PrintProducts(productDao.GetAllProducts());
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 3:
                         GetProductsByInsertedTitle();
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 4:
                         GetProductsByMediaType();
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 5:
                         GetProductsByGenre();
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 6:
                         GetProductsByDirector();
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     case 7:
                         GetProductsByRating();
-                        shopcontroller.runShopController();
+                        StartShopController();
                         break;
                     default:
                         view.PrintMessage("Choose one of the available options");
@@ -117,6 +117,12 @@ namespace ShopOnline.Controller
                 view.PrintMessage($"Rsting {rating}:");
                 view.PrintProducts(productDao.GetProductsByRating(Int32.Parse(rating)));
             }
+        }
+
+        private void StartShopController()
+        {
+            shopController = new ShopController();
+            shopController.runShopController();
         }
     }
 }

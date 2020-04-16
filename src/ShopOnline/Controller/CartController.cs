@@ -12,7 +12,8 @@ namespace ShopOnline.Controller
         CartDaoDB cartDaoDB = new CartDaoDB();
         CartItemDaoDB cartItemDaoDB = new CartItemDaoDB();
         Cart Cart { get; set; }
-        
+        bool isCartControllerActive = true;
+
         Dictionary<string, string> optionsInBasket = new Dictionary<string, string>()
         {
             {"1", "Add" },
@@ -31,7 +32,6 @@ namespace ShopOnline.Controller
 
         public void runCartController()
         {
-            bool isCartControllerActive = true;
             while (isCartControllerActive)
             {
                 List<CartItem> cartItems = cartItemDaoDB.GetCardItem();
@@ -61,6 +61,10 @@ namespace ShopOnline.Controller
                         {
                             var orderController = new OrderController(Cart);
                             orderController.RunOrderController();
+                            if (orderController.IsActive == false)
+                            {
+                                isCartControllerActive = false;
+                            }
                         }
                         else
                         {

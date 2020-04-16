@@ -8,12 +8,14 @@ namespace ShopOnline.Controller
     public class MainController
     { 
         View View=new View();
+        bool isMainControllerActive = true; 
         Dictionary<string,string> request =new Dictionary<string, string>()
         {
             { "1", "Shop" }, 
             {"2", "Your account" },
             {"3", "Contact" },
-            {"4","About us" }
+            {"4","About us" },
+            {"q", "Quit"}
         }; 
  
         
@@ -22,7 +24,6 @@ namespace ShopOnline.Controller
             
         }
         public void runMainController() {
-            bool isMainControllerActive = true;
 
             while (isMainControllerActive)
             {
@@ -45,6 +46,11 @@ namespace ShopOnline.Controller
                     case "4":
                         {
                             new ContactController().ShowAboutUsDetails("AboutUs");
+                            break;
+                        }
+                    case "q":
+                        {
+                            isMainControllerActive = false;
                             break;
                         }
                 }

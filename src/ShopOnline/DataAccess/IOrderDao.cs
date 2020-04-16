@@ -17,5 +17,8 @@ namespace ShopOnline.DataAccess
         Order GetOrderById(int id);
         List<Order> GetOrdersByCustomerId(int id);
         List<Order> GetOrdersByDate(DateTime date);
+        List<CartItem> GetCartItemsOfLastCart();
+        DateTime GetLastOrderDate();
+        int GetLastOrderId();
     }
 }

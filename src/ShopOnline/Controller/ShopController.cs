@@ -12,8 +12,8 @@ namespace ShopOnline.Controller
         public CartDaoDB cartDaoDB=new CartDaoDB();
         Validation validation = new Validation();
         public Cart Cart { get; set; }
+        bool isShopControllerActive = true;
 
-        
 
         Dictionary<string, string> request = new Dictionary<string, string>()
         {
@@ -28,12 +28,11 @@ namespace ShopOnline.Controller
         {
             Cart = new Cart();
             cartDaoDB.CreateEmptyCart();
+
         }
 
         public void runShopController()
         {
-            bool isShopControllerActive = true;
-
             while (isShopControllerActive)
             {
                 Cart = cartDaoDB.GetCurrentCart();
@@ -60,8 +59,12 @@ namespace ShopOnline.Controller
                     case "3":
                         if (Cart.TotalPrice > 0)
                         {
-                            var customerController = new OrderController(Cart);
-                            customerController.RunOrderController();
+                            var orderController = new OrderController(Cart);
+                            orderController.RunOrderController();
+                            if (orderController.IsActive == false)
+                            {
+                                isShopControllerActive = false;
+                            }
                         }
                         else
                         {
