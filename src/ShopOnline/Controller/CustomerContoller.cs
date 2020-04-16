@@ -24,7 +24,7 @@ namespace ShopOnline.Controller
 
         Dictionary<int, string> menuOptions = new Dictionary<int, string>()
         {
-            {0, "Go Back "},
+            {0, "Exit"},
             {1, "Log In"},
             {2, "Log Off"},
             {3, "Registration"},
@@ -32,7 +32,7 @@ namespace ShopOnline.Controller
         };
         Dictionary<int, string> updateOptions = new Dictionary<int, string>()
         {
-            {0, "Exit "},
+            {0, "Exit"},
             {1, "Uptade Phone Number"},
             {2, "Update Poste Code"},
             {3, "Update City" },
@@ -66,6 +66,7 @@ namespace ShopOnline.Controller
 
             do
             {
+                view.PrintMessage("User menu:");
                 view.PrintDictionary(menuOptions);
                 try
                 {
@@ -86,8 +87,6 @@ namespace ShopOnline.Controller
                             break;
                         case 4:
                             RegisterNewCustomer(false);
-                            var orderController = new OrderController(cart);
-                            orderController.RunOrderController();
                             break;
 
                     }
@@ -129,8 +128,9 @@ namespace ShopOnline.Controller
                         userId = user.Id;
 
                         view.PrintMessage("Login successful.");
-                        string decision = view.GetUserInput("Do you wont to update Your data? Press /'y/' " +
-                                                                "or /'yes/' to enter Your account").ToLower();
+                        string decision = view.GetUserInput("Do you want to update Your data? Press 'y' " +
+                                                            "or 'yes' to enter Your account. " +
+                                                            "Press 'Enter' otherwise").ToLower();
                         if (decision.Equals("y") || decision.Equals("yes"))
                             UpdateCustomerDetails();
 
@@ -172,15 +172,15 @@ namespace ShopOnline.Controller
 
             while (!emailOk)
             {
-                view.PrintMessage("Enter Your email:");
-                email = view.GetUserInput("E-mail: ").ToLower();
+                email = view.GetUserInput("Enter Your e-mail: ").ToLower();
                 if(IsValidEmail(email))
                 {
                    
                     try
                     {
                         var user = customerDao.GetCustomerByEmail(email);
-                        string decision = view.GetUserInput("Your email exist in database. Press 'q' to exit or try again. ").ToLower();
+                        string decision = view.GetUserInput("Your email exists in database. " +
+                                                            "Press 'q' to exit or 'Enter' to try again.").ToLower();
                         if(decision.Equals("q"))
                         {
                             return -1;
@@ -218,6 +218,7 @@ namespace ShopOnline.Controller
             try
             {
                 Customer newUser = customerDao.GetCustomerByEmail(email);
+                userId = newUser.Id;
                 return newUser.Id;
 
             } catch(IdNotFoundException)
@@ -234,6 +235,7 @@ namespace ShopOnline.Controller
 
             do
             {
+                view.PrintMessage("User data update menu:");
                 view.PrintDictionary(updateOptions);
                 try
                 {
