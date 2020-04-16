@@ -12,13 +12,9 @@ namespace ShopOnline.DataAccess
     
         public CartDaoDB()
         {
-<<<<<<< HEAD
             //DataBaseConnectionService = new DataBaseConnectionService("localhost", "magda", "Lena1234", "onlineshop");
             //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
             DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
-=======
-            DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres","1234","ShopOnline");
->>>>>>> 04b887cdfacdc7ef7ec4dafede46787b6e298469
         }
 
 
