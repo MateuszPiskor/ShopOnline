@@ -167,5 +167,71 @@ namespace ShopOnline.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public List<CartItem> GetCartItemsOfLastCart()
+        {
+            List<CartItem> cartItems = new List<CartItem>();
+
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $@"SELECT m.title,c.id,c.product_id,c.quantity,c.unit_price,c.subtotal 
+                                    FROM cart_items c
+                                    INNER JOIN products p
+                                    ON c.product_id=p.id
+                                     INNER JOIN movies m
+                                     ON m.id=p.movie_id
+                                     WHERE c.cart_id=(SELECT MAX(id) from carts)";
+
+            con.Open();
+
+            var preparedCommand = new NpgsqlCommand(command, con);
+            var reader = preparedCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                cartItems.Add(new CartItem(reader.GetString(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5)));
+            }
+
+            return cartItems;
+        }
+
+        public DateTime GetLastOrderDate()
+        {
+            DateTime date = new DateTime();
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $@"SELECT * FROM orders
+                                     WHERE id=(SELECT MAX(id) from orders)";
+
+            con.Open();
+
+            var preparedCommand = new NpgsqlCommand(command, con);
+            var reader = preparedCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                date = reader.GetDateTime(1);
+            }
+
+            return date;
+        }
+
+        public int GetLastOrderId()
+        {
+            int id = 0;
+            using var con = DataBaseConnectionService.GetDatabaseConnectionObject();
+            string command = $@"SELECT * FROM orders
+                                     WHERE id=(SELECT MAX(id) from orders)";
+
+            con.Open();
+
+            var preparedCommand = new NpgsqlCommand(command, con);
+            var reader = preparedCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                id = reader.GetInt32(0);
+            }
+
+            return id;
+        }
     }
 }

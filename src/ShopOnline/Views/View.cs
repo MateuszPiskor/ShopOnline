@@ -97,18 +97,19 @@ namespace ShopOnline.Views
             Console.WriteLine();
         }
 
-        public void PrintOrderConfirmation(Order order)
+        public void PrintOrderConfirmation(List<CartItem> cartItems, Order order)
         {
+            Console.WriteLine();
             Console.WriteLine($"Order number {order.Id}:");
             Console.WriteLine($"Date: {order.Date}");
             Console.WriteLine();
             Console.WriteLine("--------------------------");
-            Console.WriteLine();
-            // PrintCartItems(order.Cart); - to be done
-            Console.WriteLine();
+            PrintBasket(cartItems, order.Cart);
             Console.WriteLine("--------------------------");
             Console.WriteLine();
             Console.WriteLine($"Total price: {order.TotalPrice} zł");
+            Console.WriteLine("--------------------------");
+            Console.WriteLine();
         }
 
         public void DisplayMenu(string[] rows)

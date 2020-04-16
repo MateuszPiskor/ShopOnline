@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ShopOnline.DataAccess;
 using ShopOnline.Model;
 using ShopOnline.Views;
@@ -56,8 +57,9 @@ namespace ShopOnline.Controller
             if (userInput == "y")
             {
                 orderDao.CreateOrder(order);
-                view.PrintOrderConfirmation(order);
+                DisplayOrderConfirmation();
                 view.PrintMessage("Thank you for your order.");
+                
             }
             else
             {
@@ -76,6 +78,14 @@ namespace ShopOnline.Controller
         private void SetTotalPrice()
         {
             order.TotalPrice = order.Cart.TotalPrice + order.Delivery.Cost + order.Payment.Cost;
+        }
+
+        private void DisplayOrderConfirmation()
+        {
+            List<CartItem> cartItems = orderDao.GetCartItemsOfLastCart();
+            order.Date = orderDao.GetLastOrderDate();
+            order.Id = orderDao.GetLastOrderId();
+            view.PrintOrderConfirmation(cartItems, order);
         }
     }
 }
