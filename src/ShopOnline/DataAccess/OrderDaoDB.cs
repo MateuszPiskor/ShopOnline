@@ -10,11 +10,18 @@ namespace ShopOnline.DataAccess
         public DataBaseConnectionService DataBaseConnectionService { get; private set; }
 
         public OrderDaoDB()
+<<<<<<< HEAD
         {
             //DataBaseConnectionService = new DataBaseConnectionService("localhost", "magda", "Lena1234", "onlineshop");
             DataBaseConnectionService = new DataBaseConnectionService("localhost", "agnieszkachruszczyksilva", "startthis", "shop_online_project");
             //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
         }
+=======
+            {
+                DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres","1234","ShopOnline");
+                //DataBaseConnectionService = new DataBaseConnectionService("localhost", "postgres", "1234", "ShopOnline");
+            }
+>>>>>>> 04b887cdfacdc7ef7ec4dafede46787b6e298469
 
         public void CreateOrder(Customer customer, Cart cart, Payment payment, Delivery delivery, double totalPrice)
         {

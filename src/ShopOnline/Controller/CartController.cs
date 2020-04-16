@@ -35,6 +35,7 @@ namespace ShopOnline.Controller
             while (isCartControllerActive)
             {
                 List<CartItem> cartItems = cartItemDaoDB.GetCardItem();
+                Cart = cartDaoDB.GetCurrentCart();
                 view.PrintBasket(cartItems, Cart);
                 view.PrintDictionary(optionsInBasket);
                 userChoice = view.GetUserInput("Your choice: ");

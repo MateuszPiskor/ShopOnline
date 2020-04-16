@@ -47,7 +47,7 @@ namespace ShopOnline.Controller
                         if (validation.isProductNumber(product_id))
                         {
                             AddToBasket(product_id, Cart.Id);
-                            Cart = cartDaoDB.GetCurrentCart();
+                            //Cart = cartDaoDB.GetCurrentCart();
                             view.PrintMessage("Item added");
                         }
                         break;
@@ -86,6 +86,7 @@ namespace ShopOnline.Controller
             var cartItemDaoDB = new CartItemDaoDB();
             cartItemDaoDB.AddToBasket(int.Parse(userChoice),cart_id);
             cartDaoDB.UpdateTotalPrice();
+            Cart = cartDaoDB.GetCurrentCart();
         }
 
         private List<Product> GetAllProducts()
