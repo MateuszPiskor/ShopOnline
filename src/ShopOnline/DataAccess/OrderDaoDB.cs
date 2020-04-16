@@ -33,12 +33,12 @@ namespace ShopOnline.DataAccess
         public void CreateOrder(Order order)
         {
             using var connectionObj = DataBaseConnectionService.GetDatabaseConnectionObject();
-            string sql = @"INSERT INTO orders(customer_id, cart_id, paymentmethod_id, deliveryoption_id, total_price) VALUES(@customerId, @cartId, @paymentId, @deliveryId, @totalPrice);";
+            string sql = @"INSERT INTO orders(date, customer_id, cart_id, paymentmethod_id, deliveryoption_id, total_price) VALUES(CURRENT_DATE, @customerId, @cartId, @paymentId, @deliveryId, @totalPrice);";
             connectionObj.Open();
 
             using var cmd = new NpgsqlCommand(sql, connectionObj);
             cmd.Parameters.AddWithValue("@customerId", order.Customer.Id);
-            cmd.Parameters.AddWithValue("@cart_id", order.Cart.Id);
+            cmd.Parameters.AddWithValue("@cartId", order.Cart.Id);
             cmd.Parameters.AddWithValue("@paymentId", order.Payment.Id);
             cmd.Parameters.AddWithValue("@deliveryId", order.Delivery.Id);
             cmd.Parameters.AddWithValue("@totalPrice", order.TotalPrice);

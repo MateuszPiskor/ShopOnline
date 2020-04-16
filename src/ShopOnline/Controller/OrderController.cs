@@ -7,20 +7,16 @@ namespace ShopOnline.Controller
 {
     public class OrderController
     {
-        public bool IsActive { get; set; }
+        public bool IsActive { get; private set; }
         View view = new View();
         Order order = new Order();
         IOrderDao orderDao = new OrderDaoDB();
 
 
-        public OrderController()
-        {
-        }
-
         public OrderController(Cart cart)
         {
             order.Cart = cart;
-            order.TotalPrice = cart.TotalPrice;
+            IsActive = true;
         }
 
         public void RunOrderController()
@@ -28,7 +24,8 @@ namespace ShopOnline.Controller
             // view.PrintCart();
             SetPaymentMethod();
             SetDeliveryOption();
-
+            SetTotalPrice();
+            SetCustomerDetails();
             PlaceOrder();
         }
 
@@ -51,12 +48,13 @@ namespace ShopOnline.Controller
 
         private void PlaceOrder()
         {
-            string userInput = view.GetUserInput("Press 'y' to confirm placing the order: ");
+            string userInput = view.GetUserInput("Press 'y' to confirm the order: ");
             if (userInput == "y")
             {
-                SetCustomerDetails();
                 orderDao.CreateOrder(order);
                 view.PrintOrderConfirmation(order);
+                ProductController productController = new ProductController();
+                productController.RunProductController();
             }
             else
             {
@@ -69,6 +67,11 @@ namespace ShopOnline.Controller
             CustomerController customerController = new CustomerController(new CustomerDaoDB());
             customerController.RunMenu();
             order.Customer = customerController.GetCustomer();
+        }
+
+        private void SetTotalPrice()
+        {
+            order.TotalPrice = order.Cart.TotalPrice + order.Delivery.Cost + order.Payment.Cost;
         }
     }
 }
