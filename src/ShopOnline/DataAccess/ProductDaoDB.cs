@@ -99,7 +99,8 @@ namespace ShopOnline.DataAccess
             string sqlQuery = @$"SELECT DISTINCT genres.id, genres.name
                            FROM products
                            INNER JOIN movies ON products.movie_id = movies.id
-                           INNER JOIN genres ON movies.genre_id = genres.id;";
+                           INNER JOIN genres ON movies.genre_id = genres.id
+                           ORDER BY genres.id;";
 
             return GetSelectedTypes(sqlQuery);
         }
