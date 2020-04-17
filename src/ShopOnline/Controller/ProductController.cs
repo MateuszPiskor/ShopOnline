@@ -36,7 +36,7 @@ namespace ShopOnline.Controller
             while (isProductControllerActive)
             {
                 view.PrintDictionary(requests);
-                int selectedOption = GetAnOption();
+                int selectedOption = GetAnOptionFromMenu("Choose option: ", requests);
                 
                 switch(selectedOption)
                 {
@@ -91,15 +91,17 @@ namespace ShopOnline.Controller
 
         private void GetProductsByMediaType()
         {
-            view.PrintDictionary(productDao.GetAllMediaTypes());
-            int selectedMediaTypeNumber = Int32.Parse(view.GetUserInput("Choose media type's number: "));
+            Dictionary<int, string> mediaTypes = productDao.GetAllMediaTypes();
+            view.PrintDictionary(mediaTypes);
+            int selectedMediaTypeNumber = GetAnOptionFromMenu("Choose media type's number: ", mediaTypes);
             view.PrintProducts(productDao.GetProductsByMediaType(selectedMediaTypeNumber));
         }
 
         private void GetProductsByGenre()
         {
-            view.PrintDictionary(productDao.GetAllGenres());
-            int selectedGenreNumber = Int32.Parse(view.GetUserInput("Choose genre's number: "));
+            Dictionary<int, string> genres = productDao.GetAllGenres();
+            view.PrintDictionary(genres);
+            int selectedGenreNumber = GetAnOptionFromMenu("Choose genre's number: ", genres);
             view.PrintProducts(productDao.GetProductsByGenre(selectedGenreNumber));
         }
 
@@ -126,20 +128,20 @@ namespace ShopOnline.Controller
             shopController.runShopController();
         }
 
-        private int GetAnOption()
+        private int GetAnOptionFromMenu(string message, Dictionary<int, string> dictMenu)
         {
             while (true)
             {
-                string input = view.GetUserInput("Choose option: ");
+                string input = view.GetUserInput(message);
 
-                if (Int32.TryParse(input, out int number) && requests.ContainsKey(Int32.Parse(input)))
+                if (Int32.TryParse(input, out int number) && dictMenu.ContainsKey(Int32.Parse(input)))
                 {
                     int output = Int32.Parse(input);
                     return output;
                 }
                 else
                 {
-                    view.PrintMessage($"Please enter a number between {requests.Keys.Min()} and {requests.Keys.Max()}");
+                    view.PrintMessage($"Please enter a number between {dictMenu.Keys.Min()} and {dictMenu.Keys.Max()}");
                 }
 
             }           
