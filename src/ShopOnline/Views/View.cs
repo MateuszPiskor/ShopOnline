@@ -102,11 +102,9 @@ namespace ShopOnline.Views
             Console.WriteLine();
             Console.WriteLine($"Order number {order.Id}:");
             Console.WriteLine($"Date: {order.Date.ToString("dd/MM/yyyy")}");
-            Console.WriteLine();
             Console.WriteLine("--------------------------");
             PrintBasket(cartItems, order.Cart);
             Console.WriteLine("--------------------------");
-            Console.WriteLine();
             Console.WriteLine($"Total price: {order.TotalPrice} zł");
             Console.WriteLine("--------------------------");
             Console.WriteLine();
