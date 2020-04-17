@@ -51,24 +51,19 @@ namespace ShopOnline.Controller
                         StartShopController();
                         break;
                     case 3:
-                        GetProductsByInsertedTitle();
-                        StartShopController();
+                        GetProductsByInsertedTitle();  
                         break;
                     case 4:
                         GetProductsByMediaType();
-                        StartShopController();
                         break;
                     case 5:
                         GetProductsByGenre();
-                        StartShopController();
                         break;
                     case 6:
                         GetProductsByDirector();
-                        StartShopController();
                         break;
                     case 7:
                         GetProductsByRating();
-                        StartShopController();
                         break;
                     default:
                         view.PrintMessage("Choose one of the available options");
@@ -85,7 +80,8 @@ namespace ShopOnline.Controller
         private void GetProductsByInsertedTitle()
         {
             string title = view.GetUserInput("Enter title or part of it: ");
-            view.PrintProducts(productDao.GetProductsByTitlePart(title));
+            List<Product> filteredProducts = productDao.GetProductsByTitlePart(title);
+            DisplayFilteredProducts(filteredProducts);
         }
 
         private void GetProductsByMediaType()
@@ -94,6 +90,7 @@ namespace ShopOnline.Controller
             view.PrintDictionary(mediaTypes);
             int selectedMediaTypeNumber = GetAnOptionFromMenu("Choose media type's number: ", mediaTypes);
             view.PrintProducts(productDao.GetProductsByMediaType(selectedMediaTypeNumber));
+            StartShopController();
         }
 
         private void GetProductsByGenre()
@@ -102,12 +99,14 @@ namespace ShopOnline.Controller
             view.PrintDictionary(genres);
             int selectedGenreNumber = GetAnOptionFromMenu("Choose genre's number: ", genres);
             view.PrintProducts(productDao.GetProductsByGenre(selectedGenreNumber));
+            StartShopController();
         }
 
         private void GetProductsByDirector()
         {
-            string director = view.GetUserInput("Enter director name (e.g. David Lynch: ");
-            view.PrintProducts(productDao.GetProductsByDirector(director));
+            string director = view.GetUserInput("Enter director name (e.g. David Lynch): ");
+            List<Product> filteredProducts = productDao.GetProductsByDirector(director);
+            DisplayFilteredProducts(filteredProducts);
         }
 
         private void GetProductsByRating()
@@ -116,9 +115,10 @@ namespace ShopOnline.Controller
             string[] arrayOfRatings = ratings.Split(',');
             foreach (string rating in arrayOfRatings)
             {
-                view.PrintMessage($"Rsting {rating}:");
+                view.PrintMessage($"Rating {rating}:");
                 view.PrintProducts(productDao.GetProductsByRating(Int32.Parse(rating)));
             }
+            StartShopController();
         }
 
         private void StartShopController()
@@ -142,8 +142,21 @@ namespace ShopOnline.Controller
                 {
                     view.PrintMessage($"Please enter a number between {dictMenu.Keys.Min()} and {dictMenu.Keys.Max()}");
                 }
-
             }           
         }
+
+        private void DisplayFilteredProducts(List<Product> products)
+        {
+            if (products.Any())
+            {
+                view.PrintProducts(products);
+                StartShopController();
+            }
+            else
+            {
+                view.PrintMessage("Nothing found.");
+            }
+        }
+
     }
 }
