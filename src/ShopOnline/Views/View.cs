@@ -101,7 +101,7 @@ namespace ShopOnline.Views
         {
             Console.WriteLine();
             Console.WriteLine($"Order number {order.Id}:");
-            Console.WriteLine($"Date: {order.Date}");
+            Console.WriteLine($"Date: {order.Date.ToString("dd/MM/yyyy")}");
             Console.WriteLine();
             Console.WriteLine("--------------------------");
             PrintBasket(cartItems, order.Cart);
