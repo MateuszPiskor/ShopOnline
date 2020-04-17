@@ -45,7 +45,6 @@ namespace ShopOnline.Controller
                         break;
                     case 1:
                         view.PrintMovies(productDao.GetAllMovies());
-                        StartShopController();
                         break;
                     case 2:
                         view.PrintProducts(productDao.GetAllProducts());
