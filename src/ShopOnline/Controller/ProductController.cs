@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ShopOnline.DataAccess;
 using ShopOnline.Model;
 using ShopOnline.Views;
@@ -35,7 +36,7 @@ namespace ShopOnline.Controller
             while (isProductControllerActive)
             {
                 view.PrintDictionary(requests);
-                int selectedOption = Int32.Parse(view.GetUserInput("Select option: "));
+                int selectedOption = GetAnOption();
                 
                 switch(selectedOption)
                 {
@@ -123,6 +124,25 @@ namespace ShopOnline.Controller
         {
             shopController = new ShopController();
             shopController.runShopController();
+        }
+
+        private int GetAnOption()
+        {
+            while (true)
+            {
+                string input = view.GetUserInput("Choose option: ");
+
+                if (Int32.TryParse(input, out int number) && requests.ContainsKey(Int32.Parse(input)))
+                {
+                    int output = Int32.Parse(input);
+                    return output;
+                }
+                else
+                {
+                    view.PrintMessage($"Please enter a number between {requests.Keys.Min()} and {requests.Keys.Max()}");
+                }
+
+            }           
         }
     }
 }
