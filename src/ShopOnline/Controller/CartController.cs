@@ -16,8 +16,8 @@ namespace ShopOnline.Controller
 
         Dictionary<string, string> optionsInBasket = new Dictionary<string, string>()
         {
-            {"1", "Add" },
-            {"2", "Remove" },
+            {"1", "Add quantity" },
+            {"2", "Remove quantity" },
             {"3", "Back To Shoping" },
             {"4","Go to checkout" }
 

@@ -19,9 +19,9 @@ namespace ShopOnline.Controller
         {
            
             {"1", "Add to basket" },
-            {"2", "Go to basket" },
+            {"2", "Edit basket" },
             {"3", "Go to checkout" },
-            {"4","Go to filters" },
+            {"4","Back to filters" },
 
         };
         public ShopController()
@@ -52,8 +52,17 @@ namespace ShopOnline.Controller
                         break;
 
                     case "2":
+                        
+                        if (Cart.TotalPrice > 0)
+                        {
                             var cartController = new CartController(Cart);
                             cartController.runCartController();
+                        }
+                        else
+                        {
+                            view.PrintMessage("Your basket is empty");
+                        }
+                            
                         break;
 
                     case "3":
