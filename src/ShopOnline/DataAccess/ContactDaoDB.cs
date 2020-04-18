@@ -8,7 +8,7 @@ namespace ShopOnline.DataAccess
 {
     public class ContactDaoDB
     {
-        DataBaseConnectionService localConnection = new DataBaseConnectionService("localhost" , "adminshop" , "adminshop" , "shopOnLine");
+        DataBaseConnectionService localConnection = new DataBaseConnectionService("localhost" , "adminshop" , "adminshop" , "shop_online_project");
 
         public void SendToDB( TheForm form )
         {
