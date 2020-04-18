@@ -7,8 +7,8 @@ namespace ShopOnline.Model
 {
     public class AboutUs
     {
-        private List<string> ContactOptions; 
-        public List<string> contactOptions { get => ContactOptions; }
+        private Dictionary<string , string> ContactOptions;
+        public Dictionary<string , string> contactOptions { get => ContactOptions; }
         public AboutUs()
         {   
             LoadContactOptionsToList();
@@ -25,14 +25,14 @@ namespace ShopOnline.Model
         {
             using (XmlReader reader = XmlReader.Create("DataAccess/AboutUs.xml"))
             {
-                ContactOptions = new List<string>();
+                ContactOptions = new Dictionary<string , string>();
                 reader.ReadToFollowing("ContactOptions");
                 while (reader.Read())
                 {
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                        ContactOptions.Add(reader.Name);
+                        ContactOptions.Add(reader.Name, reader.ReadString());
                         break;
                     }
                 }
@@ -41,10 +41,17 @@ namespace ShopOnline.Model
         }
         protected void ShowContactOptions()
         {
-            for (int i=0; i < contactOptions.Count; i++)
+            var i = 1;
+            System.Collections.IDictionaryEnumerator dictEnum = contactOptions.GetEnumerator();
+            while ( ( dictEnum.MoveNext() ) && ( dictEnum.Current != null ) )
             {
-                Console.WriteLine($"({i+1}) --> {contactOptions[i]}");
+                var b = dictEnum.Value.ToString();
+                var c = b.PadLeft(5 , ' '); //dictEnum.Value.ToString().PadLeft(15)
+                System.Console.WriteLine("{0}) {1} -- {2}" , i++ , dictEnum.Key , c);
+                
+                //var x = StringFormat
             }
+            Console.WriteLine();
         }
 
     }
