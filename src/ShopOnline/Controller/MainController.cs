@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ShopOnline.Views;
 using ShopOnline.Model;
 using System.Linq;
+using ShopOnline.DataAccess;
 
 namespace ShopOnline.Controller
 {
@@ -34,6 +35,9 @@ namespace ShopOnline.Controller
                 {
                     case 1: 
                         {
+                            
+                            var cartDaoDB = new CartDaoDB();
+                            cartDaoDB.CreateEmptyCart();
                             var productController = new ProductController();
                             productController.RunProductController();
                             break;
