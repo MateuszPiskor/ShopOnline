@@ -60,11 +60,7 @@ namespace ShopOnline.Controller
                         if (Cart.TotalPrice > 0)
                         {
                             var orderController = new OrderController(Cart);
-                            orderController.RunOrderController();
-                            if (orderController.IsActive == false)
-                            {
-                                isShopControllerActive = false;
-                            }
+                            orderController.RunOrderController();                        
                         }
                         else
                         {
