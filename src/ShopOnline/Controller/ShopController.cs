@@ -13,7 +13,7 @@ namespace ShopOnline.Controller
         Validation validation = new Validation();
         public Cart Cart { get; set; }
         bool isShopControllerActive = true;
-
+        OrderController OrderController { get; set; }
 
         Dictionary<string, string> request = new Dictionary<string, string>()
         {
@@ -27,7 +27,7 @@ namespace ShopOnline.Controller
         public ShopController()
         {
             Cart = new Cart();
-
+            OrderController = new OrderController(Cart);
         }
 
         public void runShopController()
@@ -67,8 +67,12 @@ namespace ShopOnline.Controller
                     case "3":
                         if (Cart.TotalPrice > 0)
                         {
-                            var orderController = new OrderController(Cart);
-                            orderController.RunOrderController();                        
+                            OrderController = new OrderController(Cart);
+                            OrderController.RunOrderController();
+                            if (OrderController.IsOrderPlaced)
+                            {
+                                isShopControllerActive = false;
+                            }
                         }
                         else
                         {
@@ -106,6 +110,11 @@ namespace ShopOnline.Controller
         private void PrintProdutcs(List<Product> allProducts)
         {
             view.PrintProducts(allProducts);
+        }
+
+        public bool IsOrderPlaced()
+        {
+            return OrderController.IsOrderPlaced;
         }
 
     }

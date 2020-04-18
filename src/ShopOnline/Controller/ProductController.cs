@@ -10,7 +10,7 @@ namespace ShopOnline.Controller
     public class ProductController
     {
         IProductDao productDao = new ProductDaoDB();
-        ShopController shopController { get; set; }
+        ShopController ShopController { get; set; }
         bool isProductControllerActive = true;
         Dictionary<int, string> requests = new Dictionary<int, string>()
         {
@@ -27,8 +27,9 @@ namespace ShopOnline.Controller
         View view = new View();
 
 
-        public ProductController()
+        public ProductController(ShopController shopController)
         {
+            ShopController = shopController;
         }
 
         public void RunProductController()
@@ -68,6 +69,10 @@ namespace ShopOnline.Controller
                     default:
                         view.PrintMessage("Choose one of the available options");
                         break;
+                }
+                if (ShopController.IsOrderPlaced())
+                {
+                    isProductControllerActive = false;
                 }
             }
         }
@@ -123,8 +128,7 @@ namespace ShopOnline.Controller
 
         private void StartShopController()
         {
-            shopController = new ShopController();
-            shopController.runShopController();
+            ShopController.runShopController();
         }
 
         private int GetAnOptionFromMenu(string message, Dictionary<int, string> dictMenu)

@@ -10,7 +10,8 @@ namespace ShopOnline.Controller
     public class MainController
     { 
         View view=new View();
-        bool isMainControllerActive = true; 
+        ShopController ShopController { get; set; }
+        bool isMainControllerActive = true;
         Dictionary<int,string> requests =new Dictionary<int, string>()
         {
             {1, "Shop" }, 
@@ -19,7 +20,8 @@ namespace ShopOnline.Controller
             {4, "Quit"}
         }; 
  
-        
+
+
         public MainController()
         {
             
@@ -38,7 +40,8 @@ namespace ShopOnline.Controller
                             
                             var cartDaoDB = new CartDaoDB();
                             cartDaoDB.CreateEmptyCart();
-                            var productController = new ProductController();
+                            ShopController = new ShopController();
+                            var productController = new ProductController(ShopController);
                             productController.RunProductController();
                             break;
                         }

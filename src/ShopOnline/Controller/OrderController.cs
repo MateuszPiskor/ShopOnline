@@ -12,6 +12,7 @@ namespace ShopOnline.Controller
         View view = new View();
         Order order = new Order();
         IOrderDao orderDao = new OrderDaoDB();
+        public bool IsOrderPlaced { get; private set; }
 
 
         public OrderController(Cart cart)
@@ -53,11 +54,12 @@ namespace ShopOnline.Controller
 
         private void PlaceOrder()
         {
-            string userInput = view.GetUserInput("Press 'y' to confirm the order: ");
+            string userInput = view.GetUserInput("Press 'y' to confirm the order or any key to continue shopping: ");
             if (userInput == "y")
             {
                 orderDao.CreateOrder(order);
                 DisplayOrderConfirmation();
+                IsOrderPlaced = true;
                 view.PrintMessage("Thank you for your order.");
                 
             }
