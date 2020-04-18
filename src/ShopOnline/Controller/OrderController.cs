@@ -69,10 +69,13 @@ namespace ShopOnline.Controller
         }
 
         private void SetCustomerDetails()
+           
         {
+            
             CustomerController customerController = new CustomerController(new CustomerDaoDB());
             customerController.RunMenu();
             order.Customer = customerController.GetCustomer();
+                   
         }
 
         private void SetTotalPrice()
