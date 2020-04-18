@@ -27,7 +27,6 @@ namespace ShopOnline.Controller
         public ShopController()
         {
             Cart = new Cart();
-            cartDaoDB.CreateEmptyCart();
 
         }
 
