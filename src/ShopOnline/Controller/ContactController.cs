@@ -10,6 +10,7 @@ namespace ShopOnline.Controller
     internal class ContactController:AboutUs
     {
         private readonly string[] RequestTypes = new string[4] { "complaint" , "idea" , "opinion" , "question" };
+      
         internal TheForm newForm;
         View newView = new View();
 
@@ -26,7 +27,7 @@ namespace ShopOnline.Controller
             if (inputLetter == "f")
             {
                 newForm = GetForm();
-                //new ContactDaoDB().SendToDB(newForm); //wysyła do tabeli, której jeszcze nie ma w bazie danych!!!
+                new ContactDaoDB().SendToDB(newForm); 
             }
         }
         private string GetInput()

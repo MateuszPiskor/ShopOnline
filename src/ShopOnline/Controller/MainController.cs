@@ -49,7 +49,7 @@ namespace ShopOnline.Controller
                         }
                     case 3:
                         {
-                            new ContactController().ShowAboutUsDetails("AboutUs");
+                            new AboutUs().ShowAboutUsDetails("AboutUs");
                             break;
                         }
                     case 4:
