@@ -114,7 +114,7 @@ namespace ShopOnline.Controller
             do
             {
                 string login = view.GetUserInput("Enter Your email: ");
-                string pass = view.GetUserInput("Enter Your password: ");
+                string pass = view.GetPassword();
                 bool loginOk = false;
 
                 Customer user;
@@ -211,7 +211,8 @@ namespace ShopOnline.Controller
 
             if(setAsRegistered)
             {
-                password = view.GetUserInput("Password: ");
+                view.PrintMessage("Password: ");
+                password = view.GetPassword();
             } 
 
             customerDao.InsertNewCustomer(firstName, lastName, city, postCode, street, email, phone, setAsRegistered, password);
