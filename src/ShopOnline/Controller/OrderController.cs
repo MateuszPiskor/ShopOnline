@@ -28,7 +28,18 @@ namespace ShopOnline.Controller
                 SetPaymentMethod();
                 SetDeliveryOption();
                 SetTotalPrice();
-                SetCustomerDetails();
+
+                //chech if Customer date input ok
+                bool customerExists = false;
+                while(!customerExists)
+                {
+                    
+                    customerExists = SetCustomerDetails();
+                    if (!customerExists)
+                        view.PrintMessage("Customer data doesn't exist. Try again.");
+
+                }
+                
                 PlaceOrder();
             }
 
@@ -68,14 +79,23 @@ namespace ShopOnline.Controller
             IsActive = false;
         }
 
-        private void SetCustomerDetails()
+        private bool SetCustomerDetails()
            
         {
-            
+            bool customerExist = false;
             CustomerController customerController = new CustomerController(new CustomerDaoDB());
             customerController.RunMenu();
-            order.Customer = customerController.GetCustomer();
-                   
+            try
+            {
+                order.Customer = customerController.GetCustomer();
+                customerExist = true;
+            } catch(IdNotFoundException)
+            {
+                customerExist = false;
+            }
+            return customerExist;
+
+            
         }
 
         private void SetTotalPrice()
